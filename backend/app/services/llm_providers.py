@@ -27,42 +27,55 @@ class BaseLLMProvider(ABC):
         """Ejecuta la inferencia devolviendo: (raw_json_str, in_tokens, out_tokens, latency_ms, cost_usd)."""
         pass
 
-    def run_triage(self, text: str) -> TriageResponse:
-        """Flujo común: construye prompt, ejecuta modelo con backoff y valida el contrato Pydantic."""
+def run_triage(self, text: str, max_retries: int = 2) -> TriageResponse:
+        """Construye el prompt, ejecuta el modelo y valida el contrato Pydantic.
+        
+        Si el LLM devuelve un JSON roto o inválido, reintenta la llamada.
+        """
         messages = build_triage_prompt(text)
-        raw_json_str, in_tokens, out_tokens, latency_ms, cost_usd = self.generate_triage(messages)
+        attempts = 0
+        last_error: Exception | None = None
+
+        while attempts <= max_retries:
+            attempts += 1
+            raw_json_str, in_tokens, out_tokens, latency_ms, cost_usd = self.generate_triage(messages)
 
         # 1. Parsear texto JSON
-        try:
-            parsed_dict = json.loads(raw_json_str)
-        except json.JSONDecodeError as err:
-            raise ValueError(f"El modelo devolvió una respuesta que no es JSON válido: {raw_json_str}") from err
+            try:
+                parsed_dict = json.loads(raw_json_str)
+            except json.JSONDecodeError as err:
+                last_error = ValueError(f"El modelo devolvió un JSON no parseable: {raw_json_str}")
+                continue
 
-        # 2. Validar con Pydantic (Type-Safety)
-        try:
-            validated_output = LLMTriageOutput.model_validate(parsed_dict)
-        except ValidationError as val_err:
-            raise ValueError(f"La salida no cumple el contrato de datos requerido: {val_err}") from val_err
+        # 2. Validar contrato Pydantic (Type-Safety)
+            try:
+                validated_output = LLMTriageOutput.model_validate(parsed_dict)
+            except ValidationError as val_err:
+                last_error = ValueError(f"La salida no cumple el contrato de datos: {val_err}")
+                continue
 
-        # 3. Empaquetar métricas
-        metrics = TriageMetrics(
-            latencia_ms=round(latency_ms, 2),
-            tokens_entrada=in_tokens,
-            tokens_salida=out_tokens,
-            coste_estimado_usd=round(cost_usd, 6),
-            proveedor=self.get_provider_name(),
-        )
+        # Si pasa la validación, construir métricas y retornar
+            metrics = TriageMetrics(
+                latencia_ms=round(latency_ms, 2),
+                tokens_entrada=in_tokens,
+                tokens_salida=out_tokens,
+                coste_estimado_usd=round(cost_usd, 6),
+                proveedor=self.get_provider_name(),
+            )
 
-        return TriageResponse(
-            resultado=validated_output,
-            metricas=metrics,
-            validado_exitosamente=True,
-        )
+            return TriageResponse(
+                resultado=validated_output,
+                metricas=metrics,
+                validado_exitosamente=True,
+            )
 
-    @abstractmethod
-    def get_provider_name(self) -> str:
-        """Devuelve el nombre identificador del proveedor y modelo."""
-        pass
+        # Si agotó reintentos sin éxito
+        raise last_error or ValueError("Error desconocido al procesar el triaje con el LLM.")
+
+@abstractmethod
+def get_provider_name(self) -> str:
+    """Devuelve el nombre identificador del proveedor y modelo."""
+    pass
 
 
 class OllamaProvider(BaseLLMProvider):
