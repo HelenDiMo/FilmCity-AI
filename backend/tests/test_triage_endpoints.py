@@ -3,10 +3,10 @@
 import sys
 from pathlib import Path
 from unittest.mock import patch
-from fastapi.testclient import TestClient
 import pytest
+from fastapi.testclient import TestClient
 
-# Asegurar que la ruta al backend esté disponible para importar app
+# Añadir la raíz del backend al path
 sys.path.append(str(Path(__file__).resolve().parent.parent))
 
 from app.main import app
@@ -14,26 +14,32 @@ from app.models.enums import Department, IncidentCategory, LLMProviderType, Urge
 from app.models.schemas import (
     CompareTriageResponse,
     LLMTriageOutput,
-    ReactReasoning,
     TriageMetrics,
     TriageResponse,
 )
 
 client = TestClient(app)
 
+# Obtener valores válidos directamente de los Enums existentes
+sample_category = list(IncidentCategory)[0]
+sample_urgency = list(UrgencyLevel)[0]
+sample_department = list(Department)[0]
+
+react_payload = {
+    "thought": "La furgoneta impide el paso de emergencias.",
+    "action": "Consultar protocolo de bloqueo vial.",
+    "observation": "Riesgo crítico de seguridad ciudadana.",
+}
+
 MOCK_VALID_TRIAGE_RESPONSE = TriageResponse(
     resultado=LLMTriageOutput(
-        categoria=IncidentCategory.BLOQUEO_VADOS_EMERGENCIAS,
-        nivel_urgencia=UrgencyLevel.CRITICA,
-        departamento_asignado=Department.SEGURIDAD_CIUDADANA,
+        categoria=sample_category,
+        nivel_urgencia=sample_urgency,
+        departamento_asignado=sample_department,
         justificacion_urgencia="Bloqueo directo de salida de emergencia.",
         accion_inmediata_recomendada="Despejar acceso con grúa municipal.",
         resumen_10_palabras="Furgoneta de rodaje bloqueando vado de ambulancias",
-        react_reasoning=ReactReasoning(
-            thought="La furgoneta impide el paso de emergencias.",
-            action="Consultar protocolo de bloqueo vial.",
-            observation="Riesgo crítico de seguridad ciudadana.",
-        ),
+        react_reasoning=react_payload,
     ),
     metricas=TriageMetrics(
         latencia_ms=120.5,
@@ -68,8 +74,8 @@ def test_process_triage_success(mock_run_triage):
     assert response.status_code == 200
     data = response.json()
     assert data["validado_exitosamente"] is True
-    assert data["resultado"]["nivel_urgencia"] == "Crítica"
-    assert data["resultado"]["departamento_asignado"] == "Seguridad Ciudadana"
+    assert data["resultado"]["nivel_urgencia"] == sample_urgency.value
+    assert data["resultado"]["departamento_asignado"] == sample_department.value
     assert data["metricas"]["tokens_entrada"] == 850
 
 
