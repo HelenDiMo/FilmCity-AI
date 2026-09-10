@@ -1,0 +1,49 @@
+import type {
+  TriageRequestPayload,
+  TriageResponse,
+  CompareTriageResponse,
+} from "../types/triage";
+
+const API_BASE_URL = "http://localhost:8000/api/v1";
+
+export async function processTriage(
+  payload: TriageRequestPayload,
+): Promise<TriageResponse> {
+  const response = await fetch(`${API_BASE_URL}/triage`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(payload),
+  });
+
+  if (!response.ok) {
+    const errorData = await response.json().catch(() => null);
+    const detail =
+      errorData?.detail || `Error en la solicitud (${response.status})`;
+    throw new Error(detail);
+  }
+
+  return response.json();
+}
+
+export async function compareTriage(
+  payload: TriageRequestPayload,
+): Promise<CompareTriageResponse> {
+  const response = await fetch(`${API_BASE_URL}/triage/compare`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(payload),
+  });
+
+  if (!response.ok) {
+    const errorData = await response.json().catch(() => null);
+    const detail =
+      errorData?.detail || `Error en comparativa (${response.status})`;
+    throw new Error(detail);
+  }
+
+  return response.json();
+}
