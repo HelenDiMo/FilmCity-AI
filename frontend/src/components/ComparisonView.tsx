@@ -37,7 +37,7 @@ export function ComparisonView({ data }: ComparisonViewProps) {
   return (
     <div className="space-y-6">
       {/* Banner Resumen Comparativo */}
-      <div className="bg-gradient-to-r from-slate-900 via-slate-800 to-slate-900 border border-slate-700/80 rounded-xl p-5 shadow-lg flex flex-col md:flex-row items-center justify-between gap-4">
+      <div className="bg-linear-to-r from-slate-900 via-slate-800 to-slate-900 border border-slate-700/80 rounded-xl p-5 shadow-lg flex flex-col md:flex-row items-center justify-between gap-4">
         <div className="flex items-center gap-3">
           <div className="p-3 bg-red-600/20 border border-red-500/30 rounded-lg text-red-400">
             <Zap className="w-6 h-6" />
