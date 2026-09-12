@@ -23,13 +23,20 @@ class BaseLLMProvider(ABC):
     """Interfaz base abstracta para cualquier proveedor de LLM."""
 
     @abstractmethod
-    def generate_triage(self, messages: List[Dict[str, str]]) -> Tuple[str, int, int, float, float]:
+    def generate_triage(
+        self, messages: List[Dict[str, str]]
+    ) -> Tuple[str, int, int, float, float]:
         """Ejecuta la inferencia devolviendo: (raw_json_str, in_tokens, out_tokens, latency_ms, cost_usd)."""
         pass
 
-def run_triage(self, text: str, max_retries: int = 2) -> TriageResponse:
+    @abstractmethod
+    def get_provider_name(self) -> str:
+        """Devuelve el nombre identificador del proveedor y modelo."""
+        pass
+
+    def run_triage(self, text: str, max_retries: int = 2) -> TriageResponse:
         """Construye el prompt, ejecuta el modelo y valida el contrato Pydantic.
-        
+
         Si el LLM devuelve un JSON roto o inválido, reintenta la llamada.
         """
         messages = build_triage_prompt(text)
@@ -38,23 +45,29 @@ def run_triage(self, text: str, max_retries: int = 2) -> TriageResponse:
 
         while attempts <= max_retries:
             attempts += 1
-            raw_json_str, in_tokens, out_tokens, latency_ms, cost_usd = self.generate_triage(messages)
+            raw_json_str, in_tokens, out_tokens, latency_ms, cost_usd = (
+                self.generate_triage(messages)
+            )
 
-        # 1. Parsear texto JSON
+            # 1. Parsear texto JSON
             try:
                 parsed_dict = json.loads(raw_json_str)
-            except json.JSONDecodeError as err:
-                last_error = ValueError(f"El modelo devolvió un JSON no parseable: {raw_json_str}")
+            except json.JSONDecodeError:
+                last_error = ValueError(
+                    f"El modelo devolvió un JSON no parseable: {raw_json_str}"
+                )
                 continue
 
-        # 2. Validar contrato Pydantic (Type-Safety)
+            # 2. Validar contrato Pydantic (Type-Safety)
             try:
                 validated_output = LLMTriageOutput.model_validate(parsed_dict)
             except ValidationError as val_err:
-                last_error = ValueError(f"La salida no cumple el contrato de datos: {val_err}")
+                last_error = ValueError(
+                    f"La salida no cumple el contrato de datos: {val_err}"
+                )
                 continue
 
-        # Si pasa la validación, construir métricas y retornar
+            # Construir métricas y retornar
             metrics = TriageMetrics(
                 latencia_ms=round(latency_ms, 2),
                 tokens_entrada=in_tokens,
@@ -70,12 +83,9 @@ def run_triage(self, text: str, max_retries: int = 2) -> TriageResponse:
             )
 
         # Si agotó reintentos sin éxito
-        raise last_error or ValueError("Error desconocido al procesar el triaje con el LLM.")
-
-@abstractmethod
-def get_provider_name(self) -> str:
-    """Devuelve el nombre identificador del proveedor y modelo."""
-    pass
+        raise last_error or ValueError(
+            "Error desconocido al procesar el triaje con el LLM."
+        )
 
 
 class OllamaProvider(BaseLLMProvider):
@@ -89,7 +99,9 @@ class OllamaProvider(BaseLLMProvider):
         stop=stop_after_attempt(3),
         reraise=True,
     )
-    def generate_triage(self, messages: List[Dict[str, str]]) -> Tuple[str, int, int, float, float]:
+    def generate_triage(
+        self, messages: List[Dict[str, str]]
+    ) -> Tuple[str, int, int, float, float]:
         url = f"{settings.OLLAMA_BASE_URL}/api/chat"
         payload = {
             "model": settings.OLLAMA_MODEL,
@@ -137,7 +149,9 @@ class GroqProvider(BaseLLMProvider):
         stop=stop_after_attempt(3),
         reraise=True,
     )
-    def generate_triage(self, messages: List[Dict[str, str]]) -> Tuple[str, int, int, float, float]:
+    def generate_triage(
+        self, messages: List[Dict[str, str]]
+    ) -> Tuple[str, int, int, float, float]:
         start_time = time.perf_counter()
         chat_completion = self.client.chat.completions.create(
             messages=messages,
@@ -151,7 +165,9 @@ class GroqProvider(BaseLLMProvider):
 
         raw_content = chat_completion.choices[0].message.content or "{}"
         in_tokens = chat_completion.usage.prompt_tokens if chat_completion.usage else 0
-        out_tokens = chat_completion.usage.completion_tokens if chat_completion.usage else 0
+        out_tokens = (
+            chat_completion.usage.completion_tokens if chat_completion.usage else 0
+        )
 
         cost_usd = (in_tokens / 1_000_000 * COST_PER_MILLION_INPUT_GROQ) + (
             out_tokens / 1_000_000 * COST_PER_MILLION_OUTPUT_GROQ
@@ -160,7 +176,6 @@ class GroqProvider(BaseLLMProvider):
         return raw_content, in_tokens, out_tokens, latency_ms, cost_usd
 
 
-# Factory para obtener el proveedor adecuado según la petición
 def get_llm_provider(provider_type: LLMProviderType) -> BaseLLMProvider:
     if provider_type == LLMProviderType.CLOUD_GROQ:
         return GroqProvider()
