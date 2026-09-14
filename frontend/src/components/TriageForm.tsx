@@ -82,7 +82,7 @@ export function TriageForm({ onSubmit, isLoading }: TriageFormProps) {
             Reporte de Mediación y Rodajes
           </h2>
           <p className="text-xs text-slate-400">
-            Canal oficial de incidencias de FilmCity IA - Madrid Film Office
+            Canal oficial de incidencias de FilmCity AI - Madrid Film Office
           </p>
         </div>
 

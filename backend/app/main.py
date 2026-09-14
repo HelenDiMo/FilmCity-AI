@@ -1,4 +1,4 @@
-"""Punto de entrada principal de la aplicación FastAPI para FilmCity IA."""
+"""Punto de entrada principal de la aplicación FastAPI para FilmCity AI."""
 
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware

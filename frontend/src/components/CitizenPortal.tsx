@@ -79,7 +79,7 @@ export function CitizenPortal({ filmingSets, onSubmitComplaint, isLoading }: Cit
             Incidencia Recibida Correctamente
           </h2>
           <p className="text-sm text-zinc-600 max-w-md mx-auto">
-            Tu reporte ha sido registrado en el sistema municipal y clasificado automáticamente por FilmCity IA para su atención prioritaria.
+            Tu reporte ha sido registrado en el sistema municipal y clasificado automáticamente por FilmCity AI para su atención prioritaria.
           </p>
         </div>
 

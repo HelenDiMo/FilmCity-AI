@@ -7,7 +7,7 @@ class Settings(BaseSettings):
     """Configuración global de la aplicación cargada desde variables de entorno."""
 
     # Configuración de la API
-    PROJECT_NAME: str = "FilmCity IA"
+    PROJECT_NAME: str = "FilmCity AI"
     API_V1_PREFIX: str = "/api/v1"
     ENVIRONMENT: str = "development"
     DEBUG: bool = True

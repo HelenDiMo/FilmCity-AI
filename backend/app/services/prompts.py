@@ -1,4 +1,4 @@
-"""Módulo de ingeniería de prompts para FilmCity IA.
+"""Módulo de ingeniería de prompts para FilmCity AI.
 
 Contiene el System Prompt con directrices éticas y el esquema ReAct,
 así como ejemplos Few-Shot y la función constructora del prompt final.
@@ -7,7 +7,7 @@ así como ejemplos Few-Shot y la función constructora del prompt final.
 from app.models.enums import Department, IncidentCategory, UrgencyLevel
 
 # --- 1. SYSTEM PROMPT BASE (Rol, Ética y Reglas ReAct) ---
-TRIAGE_SYSTEM_PROMPT = f"""Eres el Asistente Experto en Triaje de Incidencias Urbanas de FilmCity IA, especializado en la gestión de impactos por turismo cinematográfico (Screen Tourism) y rodajes.
+TRIAGE_SYSTEM_PROMPT = f"""Eres el Asistente Experto en Triaje de Incidencias Urbanas de FilmCity AI, especializado en la gestión de impactos por turismo cinematográfico (Screen Tourism) y rodajes.
 
 Tu tarea es analizar quejas y reportes ciudadanos no estructurados y estructurarlos en un formato JSON estricto y estandarizado.
 

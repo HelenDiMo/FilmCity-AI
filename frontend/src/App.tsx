@@ -240,7 +240,7 @@ export default function App() {
             <div>
               <div className="flex items-center gap-2">
                 <h1 className="text-2xl font-bold tracking-tight text-zinc-900">
-                  FilmCity IA
+                  FilmCity AI
                 </h1>
                 <span className="bg-yellow-300 text-zinc-900 font-semibold text-xs px-2.5 py-0.5 rounded border border-yellow-400">
                   Madrid Film Office
@@ -475,7 +475,7 @@ export default function App() {
       </main>
 
       <footer className="border-t border-zinc-200 bg-white px-6 py-4 text-center text-xs text-zinc-500">
-        FilmCity IA © 2026 • Mediación Inteligente y Screen Tourism •
+        FilmCity AI © 2026 • Mediación Inteligente y Screen Tourism •
         Desarrollado para Bootcamp IA & Data | Somos F5
       </footer>
 

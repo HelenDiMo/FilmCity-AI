@@ -42,7 +42,7 @@ export function OperatorValidationDesk({
             </h2>
           </div>
           <p className="text-xs text-zinc-500 mt-0.5">
-            Supervisión y confirmación de los dictámenes emitidos por el motor de triaje FilmCity IA.
+            Supervisión y confirmación de los dictámenes emitidos por el motor de triaje FilmCity AI.
           </p>
         </div>
 
