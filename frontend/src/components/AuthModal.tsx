@@ -1,16 +1,16 @@
-import { useState } from 'react';
-import { 
-  Lock, 
-  ShieldCheck, 
-  Terminal, 
-  X, 
+import { useState } from "react";
+import {
+  Lock,
+  ShieldCheck,
+  Terminal,
+  X,
   AlertCircle,
   KeyRound,
   Mail,
-  ArrowRight
-} from 'lucide-react';
+  ArrowRight,
+} from "lucide-react";
 
-export type UserRole = 'operator' | 'admin';
+export type UserRole = "operator" | "admin";
 
 interface AuthModalProps {
   isOpen: boolean;
@@ -19,20 +19,25 @@ interface AuthModalProps {
   onLoginSuccess: (role: UserRole, userEmail: string) => void;
 }
 
-export function AuthModal({ isOpen, initialRole = 'operator', onClose, onLoginSuccess }: AuthModalProps) {
+export function AuthModal({
+  isOpen,
+  initialRole = "operator",
+  onClose,
+  onLoginSuccess,
+}: AuthModalProps) {
   const [selectedRole, setSelectedRole] = useState<UserRole>(initialRole);
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const [error, setError] = useState<string | null>(null);
 
   if (!isOpen) return null;
 
   // Credenciales demo configuradas
   const handleQuickLogin = (role: UserRole) => {
-    if (role === 'operator') {
-      onLoginSuccess('operator', 'operador@madridfilmoffice.es');
+    if (role === "operator") {
+      onLoginSuccess("operator", "operador@filmcity.ai");
     } else {
-      onLoginSuccess('admin', 'admin@filmcity.ai');
+      onLoginSuccess("admin", "admin@filmcity.ai");
     }
   };
 
@@ -41,17 +46,17 @@ export function AuthModal({ isOpen, initialRole = 'operator', onClose, onLoginSu
     setError(null);
 
     // Validación simulada de credenciales
-    if (selectedRole === 'operator') {
-      if (email === 'operador@madridfilmoffice.es' && password === 'madrid2026') {
-        onLoginSuccess('operator', email);
+    if (selectedRole === "operator") {
+      if (email === "operador@filmcity.ai" && password === "madrid2026") {
+        onLoginSuccess("operator", email);
       } else {
-        setError('Credenciales inválidas para Operador Municipal.');
+        setError("Credenciales inválidas para Operador Municipal.");
       }
     } else {
-      if (email === 'admin@filmcity.ai' && password === 'admin2026') {
-        onLoginSuccess('admin', email);
+      if (email === "admin@filmcity.ai" && password === "admin2026") {
+        onLoginSuccess("admin", email);
       } else {
-        setError('Credenciales inválidas para Administrador Técnico.');
+        setError("Credenciales inválidas para Administrador Técnico.");
       }
     }
   };
@@ -59,7 +64,6 @@ export function AuthModal({ isOpen, initialRole = 'operator', onClose, onLoginSu
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-zinc-950/60 backdrop-blur-sm p-4 animate-in fade-in duration-200">
       <div className="bg-white border border-zinc-200 rounded-2xl max-w-md w-full p-6 shadow-2xl space-y-5 relative">
-        
         {/* Botón Cerrar */}
         <button
           type="button"
@@ -80,7 +84,8 @@ export function AuthModal({ isOpen, initialRole = 'operator', onClose, onLoginSu
             </h2>
           </div>
           <p className="text-xs text-zinc-500">
-            Identificación para personal municipal y administradores de FilmCity IA.
+            Identificación para personal municipal y administradores de FilmCity
+            IA.
           </p>
         </div>
 
@@ -88,11 +93,14 @@ export function AuthModal({ isOpen, initialRole = 'operator', onClose, onLoginSu
         <div className="grid grid-cols-2 gap-2 bg-zinc-100 p-1 rounded-xl border border-zinc-200 text-xs">
           <button
             type="button"
-            onClick={() => { setSelectedRole('operator'); setError(null); }}
+            onClick={() => {
+              setSelectedRole("operator");
+              setError(null);
+            }}
             className={`py-2 px-3 rounded-lg font-semibold flex items-center justify-center gap-1.5 transition-all ${
-              selectedRole === 'operator'
-                ? 'bg-white text-zinc-900 shadow-sm'
-                : 'text-zinc-600 hover:text-zinc-900'
+              selectedRole === "operator"
+                ? "bg-white text-zinc-900 shadow-sm"
+                : "text-zinc-600 hover:text-zinc-900"
             }`}
           >
             <ShieldCheck className="w-3.5 h-3.5 text-zinc-900" />
@@ -100,11 +108,14 @@ export function AuthModal({ isOpen, initialRole = 'operator', onClose, onLoginSu
           </button>
           <button
             type="button"
-            onClick={() => { setSelectedRole('admin'); setError(null); }}
+            onClick={() => {
+              setSelectedRole("admin");
+              setError(null);
+            }}
             className={`py-2 px-3 rounded-lg font-semibold flex items-center justify-center gap-1.5 transition-all ${
-              selectedRole === 'admin'
-                ? 'bg-zinc-900 text-yellow-300 shadow-sm'
-                : 'text-zinc-600 hover:text-zinc-900'
+              selectedRole === "admin"
+                ? "bg-zinc-900 text-yellow-300 shadow-sm"
+                : "text-zinc-600 hover:text-zinc-900"
             }`}
           >
             <Terminal className="w-3.5 h-3.5" />
@@ -115,15 +126,24 @@ export function AuthModal({ isOpen, initialRole = 'operator', onClose, onLoginSu
         {/* Acceso rápido (Demo 1-Click) */}
         <div className="bg-yellow-50 border border-yellow-200 rounded-xl p-3 text-xs space-y-2">
           <div className="flex justify-between items-center">
-            <span className="font-bold text-zinc-800">Acceso Rápido para Demostración:</span>
-            <span className="text-[10px] text-zinc-500 uppercase font-mono">1-Clic</span>
+            <span className="font-bold text-zinc-800">
+              Acceso Rápido para Demostración:
+            </span>
+            <span className="text-[10px] text-zinc-500 uppercase font-mono">
+              1-Clic
+            </span>
           </div>
           <button
             type="button"
             onClick={() => handleQuickLogin(selectedRole)}
             className="w-full flex items-center justify-between px-3 py-1.5 bg-yellow-300 hover:bg-yellow-400 text-zinc-900 font-bold rounded-lg transition-colors"
           >
-            <span>Entrar como {selectedRole === 'operator' ? 'Operador Municipal' : 'Administrador IA'}</span>
+            <span>
+              Entrar como{" "}
+              {selectedRole === "operator"
+                ? "Operador Municipal"
+                : "Administrador IA"}
+            </span>
             <ArrowRight className="w-3.5 h-3.5" />
           </button>
         </div>
@@ -138,21 +158,29 @@ export function AuthModal({ isOpen, initialRole = 'operator', onClose, onLoginSu
           )}
 
           <div>
-            <label className="font-semibold text-zinc-700 block mb-1">Correo Corporativo</label>
+            <label className="font-semibold text-zinc-700 block mb-1">
+              Correo Corporativo
+            </label>
             <div className="relative">
               <Mail className="w-4 h-4 text-zinc-400 absolute left-3 top-2.5" />
               <input
                 type="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                placeholder={selectedRole === 'operator' ? 'operador@madridfilmoffice.es' : 'admin@filmcity.ai'}
+                placeholder={
+                  selectedRole === "operator"
+                    ? "operador@filmcity.ai"
+                    : "admin@filmcity.ai"
+                }
                 className="w-full bg-zinc-50 border border-zinc-200 rounded-xl pl-9 pr-3 py-2 text-zinc-900 focus:outline-none focus:border-yellow-400 focus:ring-1 focus:ring-yellow-400"
               />
             </div>
           </div>
 
           <div>
-            <label className="font-semibold text-zinc-700 block mb-1">Contraseña</label>
+            <label className="font-semibold text-zinc-700 block mb-1">
+              Contraseña
+            </label>
             <div className="relative">
               <KeyRound className="w-4 h-4 text-zinc-400 absolute left-3 top-2.5" />
               <input
@@ -172,7 +200,6 @@ export function AuthModal({ isOpen, initialRole = 'operator', onClose, onLoginSu
             Iniciar Sesión
           </button>
         </form>
-
       </div>
     </div>
   );
