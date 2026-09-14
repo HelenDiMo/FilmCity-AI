@@ -71,3 +71,12 @@ export interface ActiveProduction {
   location: string;
   status: "En Rodaje" | "Montaje de Set" | "Finalizado";
 }
+
+export interface FilmingSet {
+  id: string;
+  titulo_produccion: string;
+  ubicacion: string;
+  distrito: string;
+  tipo_ocupacion: string;
+  estado: string;
+}
