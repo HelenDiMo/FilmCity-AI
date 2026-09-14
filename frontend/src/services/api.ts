@@ -2,6 +2,7 @@ import type {
   TriageRequestPayload,
   TriageResponse,
   CompareTriageResponse,
+  FilmingSet,
 } from "../types/triage";
 
 const API_BASE_URL = "http://localhost:8000/api/v1";
@@ -45,5 +46,12 @@ export async function compareTriage(
     throw new Error(detail);
   }
 
+  return response.json();
+}
+export async function fetchActiveFilmingSets(): Promise<FilmingSet[]> {
+  const response = await fetch(`${API_BASE_URL}/filming-sets/active`);
+  if (!response.ok) {
+    throw new Error(`Error al obtener los sets de rodaje: ${response.statusText}`);
+  }
   return response.json();
 }
