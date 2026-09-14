@@ -38,6 +38,26 @@ const PRESET_CASES = [
   },
 ];
 
+// Isotipo oficial de Groq (Rayo de velocidad LPUs)
+function GroqIcon({ className = "w-3.5 h-3.5" }: { className?: string }) {
+  return (
+    <svg className={className} viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+      <path d="M13 2L3 14H12L11 22L21 10H12L13 2Z" />
+    </svg>
+  );
+}
+
+// Logo original de Ollama (cabeza oficial de la llama)
+function OllamaIcon({ className = "w-3.5 h-3.5" }: { className?: string }) {
+  return (
+    <img
+      src="https://cdn.simpleicons.org/ollama"
+      alt="Ollama"
+      className={`${className} object-contain`}
+      loading="lazy"
+    />
+  );
+}
 export function TriageForm({ onSubmit, isLoading }: TriageFormProps) {
   const [texto, setTexto] = useState("");
   const [provider, setProvider] = useState<LLMProviderType>("cloud_groq");
@@ -53,6 +73,7 @@ export function TriageForm({ onSubmit, isLoading }: TriageFormProps) {
   };
 
   return (
+
     <div className="bg-neutral-700 border border-slate-800 rounded-xl p-6 shadow-xl backdrop-blur-sm">
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-4">
         <div>
@@ -76,6 +97,7 @@ export function TriageForm({ onSubmit, isLoading }: TriageFormProps) {
                 : "text-slate-400 hover:text-white"
             }`}
           >
+            <GroqIcon className="w-3.5 h-3.5 shrink-0" />
             Groq Cloud (Cloud)
           </button>
           <button
@@ -87,6 +109,7 @@ export function TriageForm({ onSubmit, isLoading }: TriageFormProps) {
                 : "text-slate-400 hover:text-white"
             }`}
           >
+            <OllamaIcon className="w-3.5 h-3.5 shrink-0" />
             Ollama Local (Local)
           </button>
         </div>
