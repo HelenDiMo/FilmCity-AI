@@ -15,10 +15,11 @@ import {
 
 interface CitizenPortalProps {
   filmingSets: FilmingSet[];
-  onSubmitComplaint: (text: string) => Promise<void>;
+  onSubmitComplaint: (
+    payload: string | { texto: string; ubicacion?: string; motivo?: string }
+  ) => Promise<string> | Promise<void>;
   isLoading: boolean;
 }
-
 const COMMON_ISSUES = [
   { icon: Truck, label: 'Ocupación o Bloqueo', desc: 'Camiones, vados o salidas bloqueadas' },
   { icon: Volume2, label: 'Ruidos / Horarios', desc: 'Generadores nocturnos o luces molestas' },

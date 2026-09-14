@@ -15,6 +15,7 @@ import type {
   CompareTriageResponse,
   LLMProviderType,
   FilmingSet,
+  IncidentTicket,
 } from "./types/triage";
 import {
   Clapperboard,
@@ -26,32 +27,59 @@ import {
   RefreshCw,
   LogOut,
   Terminal,
+  Layers,
 } from "lucide-react";
 
 type RoleSession = "public" | "operator" | "admin";
 type AdminTabMode = "single" | "compare";
 
+const SEED_TICKETS: IncidentTicket[] = [
+  {
+    id: "MFO-2026-001",
+    fecha: "Hoy, 10:14",
+    ubicacion: "Gran Vía / Callao",
+    reporte_original:
+      "Varios camiones de producción han bloqueado la salida de emergencia del edificio y la toma de agua de bomberos.",
+    categoria: "Bloqueo de Vados o Salidas de Emergencia",
+    urgencia: "Crítica",
+    departamento_propuesto: "Policía Municipal / Seguridad Ciudadana",
+    resumen: "Bloqueo de salida de emergencia y toma de bomberos.",
+    estado: "Pendiente",
+    origen: "Ciudadano",
+  },
+  {
+    id: "MFO-2026-002",
+    fecha: "Hoy, 11:30",
+    ubicacion: "Calle de las Huertas",
+    reporte_original:
+      "Generador diésel a máxima potencia y focos de 10.000W sin apagar a las 23:45 h.",
+    categoria: "Contaminación Acústica / Ruidos Nocturnos",
+    urgencia: "Media",
+    departamento_propuesto: "Medio Ambiente y Limpieza Urbana",
+    resumen: "Ruidos de generadores diésel fuera de horario.",
+    estado: "Pendiente",
+    origen: "Ciudadano",
+  },
+];
+
 export default function App() {
-  // Estado de Autenticación y Sesión Activa
   const [currentUserRole, setCurrentUserRole] = useState<RoleSession>("public");
   const [userEmail, setUserEmail] = useState<string | null>(null);
   const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
-  const [authModalInitialRole, setAuthModalInitialRole] = useState<UserRole>("operator");
+  const [authModalInitialRole, setAuthModalInitialRole] =
+    useState<UserRole>("operator");
 
-  // Pestañas internas para la Consola Técnica de Administrador
   const [adminTab, setAdminTab] = useState<AdminTabMode>("single");
-
   const [isLoading, setIsLoading] = useState(false);
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
 
-  // Estado para los sets de rodaje activos en Madrid
+  const [tickets, setTickets] = useState<IncidentTicket[]>(SEED_TICKETS);
   const [filmingSets, setFilmingSets] = useState<FilmingSet[]>([]);
 
-  // Estados para almacenar las respuestas de triaje
   const [singleResult, setSingleResult] = useState<TriageResponse | null>(null);
-  const [compareResult, setCompareResult] = useState<CompareTriageResponse | null>(null);
+  const [compareResult, setCompareResult] =
+    useState<CompareTriageResponse | null>(null);
 
-  // Carga inicial de los sets de rodaje desde la API
   useEffect(() => {
     fetchActiveFilmingSets()
       .then((data) => setFilmingSets(data))
@@ -60,7 +88,6 @@ export default function App() {
       );
   }, []);
 
-  // Manejadores de Autenticación
   const handleOpenLogin = (role: UserRole) => {
     setAuthModalInitialRole(role);
     setIsAuthModalOpen(true);
@@ -77,31 +104,102 @@ export default function App() {
     setUserEmail(null);
   };
 
-  // Manejo de peticiones desde el Portal Ciudadano
-  const handleCitizenComplaint = async (texto: string) => {
+  // Manejo de queja ciudadana con tipado flexible
+  const handleCitizenComplaint = async (
+    payload: string | { texto: string; ubicacion?: string; motivo?: string }
+  ): Promise<string> => {
     setIsLoading(true);
     setErrorMsg(null);
+
+    const texto = typeof payload === "string" ? payload : payload.texto;
+    const ubicacion =
+      typeof payload === "string"
+        ? "Madrid Centro"
+        : payload.ubicacion || "Ubicación reportada";
+    const motivo =
+      typeof payload === "string"
+        ? "Incidencia Vecinal"
+        : payload.motivo || "Incidencia Vecinal";
+
+    const generatedId = `MFO-2026-${String(tickets.length + 1).padStart(3, "0")}`;
+
     try {
-      const data = await processTriage({
+      const responseData = await processTriage({
         texto_incidencia: texto,
         provider: "cloud_groq",
       });
-      setSingleResult(data);
+      setSingleResult(responseData);
+
+      const newTicket: IncidentTicket = {
+        id: generatedId,
+        fecha: "Ahora mismo",
+        ubicacion: ubicacion,
+        reporte_original: texto,
+        categoria: responseData.resultado.categoria || motivo,
+        urgencia: responseData.resultado.nivel_urgencia || "Media",
+        departamento_propuesto:
+          responseData.resultado.departamento_asignado ||
+          "Turismo y Madrid Film Office",
+        resumen:
+          responseData.resultado.resumen_10_palabras ||
+          "Reporte vecinal recibido.",
+        estado: "Pendiente",
+        origen: "Ciudadano",
+      };
+
+      setTickets((prev) => [newTicket, ...prev]);
+      return generatedId;
     } catch (err: unknown) {
-      const message =
-        err instanceof Error
-          ? err.message
-          : "Error al enviar la incidencia ciudadana";
-      setErrorMsg(message);
+      let errorText = "Error desconocido de conexión";
+      if (err instanceof Error) {
+        errorText = err.message;
+      } else if (typeof err === "object" && err !== null) {
+        errorText = JSON.stringify(err);
+      }
+
+      const fallbackTicket: IncidentTicket = {
+        id: generatedId,
+        fecha: "Ahora mismo",
+        ubicacion: ubicacion,
+        reporte_original: texto,
+        categoria: motivo,
+        urgencia: "Media",
+        departamento_propuesto: "Turismo y Madrid Film Office",
+        resumen: "Reporte vecinal registrado.",
+        estado: "Pendiente",
+        origen: "Ciudadano",
+      };
+      setTickets((prev) => [fallbackTicket, ...prev]);
+
+      setErrorMsg(
+        `Aviso: Queja registrada en cola, pero falló el triaje en tiempo real: ${errorText}`
+      );
+      return generatedId;
     } finally {
       setIsLoading(false);
     }
   };
 
-  // Manejo de peticiones de triaje técnico
+  const handleApproveTicket = (id: string) => {
+    setTickets((prev) =>
+      prev.map((t) => (t.id === id ? { ...t, estado: "Validado" } : t))
+    );
+  };
+
+  const handleReassignTicket = (id: string, newDept: string) => {
+    setTickets((prev) =>
+      prev.map((t) =>
+        t.id === id
+          ? { ...t, departamento_propuesto: newDept, estado: "Reasignado" }
+          : t
+      )
+    );
+  };
+
+  // Manejo de peticiones de triaje técnico para Admin
   const handleTriageSubmit = async (
     texto: string,
-    provider: LLMProviderType,
+    provider: LLMProviderType
   ) => {
     setIsLoading(true);
     setErrorMsg(null);
@@ -122,9 +220,7 @@ export default function App() {
       }
     } catch (err: unknown) {
       const message =
-        err instanceof Error
-          ? err.message
-          : "Error desconocido al conectar con la API";
+        err instanceof Error ? err.message : "Error al conectar con la API";
       setErrorMsg(message);
     } finally {
       setIsLoading(false);
@@ -137,8 +233,6 @@ export default function App() {
       {/* Topbar Institucional */}
       <header className="border-b border-zinc-200 bg-white/95 backdrop-blur-md px-6 py-4 sticky top-0 z-40 shadow-sm">
         <div className="max-w-6xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
-          
-          {/* Logo y Título */}
           <div className="flex items-center gap-3">
             <div className="p-2.5 bg-yellow-300 rounded-xl text-zinc-900 shadow-sm">
               <Clapperboard className="w-6 h-6" />
@@ -153,12 +247,12 @@ export default function App() {
                 </span>
               </div>
               <p className="text-xs text-zinc-500">
-                Centro de Mediación de Incidencias Urbanas y Turismo Cinematográfico
+                Centro de Mediación de Incidencias Urbanas y Turismo
+                Cinematográfico
               </p>
             </div>
           </div>
 
-          {/* Barra de Acciones según Rol */}
           <div className="flex items-center gap-2">
             {currentUserRole === "public" ? (
               <div className="flex items-center gap-2">
@@ -184,9 +278,13 @@ export default function App() {
                 <div className="flex items-center gap-1.5">
                   <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
                   <span className="font-semibold text-zinc-800 capitalize">
-                    {currentUserRole === "operator" ? "Operador Gestor" : "Administrador IT"}
+                    {currentUserRole === "operator"
+                      ? "Operador Gestor"
+                      : "Administrador IT"}
                   </span>
-                  <span className="text-zinc-400 font-mono text-[11px]">({userEmail})</span>
+                  <span className="text-zinc-400 font-mono text-[11px]">
+                    ({userEmail})
+                  </span>
                 </div>
                 <button
                   type="button"
@@ -199,11 +297,10 @@ export default function App() {
               </div>
             )}
           </div>
-
         </div>
       </header>
 
-      {/* Monitor Dinámico de Rodajes Activos */}
+      {/* Monitor Dinámico de Rodajes */}
       <div className="bg-white border-b border-zinc-200 px-6 py-2 overflow-hidden shadow-[0_1px_2px_rgba(0,0,0,0.03)]">
         <div className="max-w-6xl mx-auto flex items-center gap-4">
           <div className="flex items-center gap-2 shrink-0 bg-white z-10 pr-2 border-r border-zinc-200">
@@ -244,30 +341,21 @@ export default function App() {
         </div>
       </div>
 
-      {/* Contenido Principal Modular según Rol */}
+      {/* Contenido Principal */}
       <main className="flex-1 max-w-6xl mx-auto w-full px-6 py-8 space-y-6">
-        
-        {/* Error Alert Global */}
         {errorMsg && (
           <div className="bg-rose-50 border border-rose-200 rounded-2xl p-4 flex items-start gap-3 text-rose-800 text-xs shadow-sm">
             <AlertOctagon className="w-5 h-5 text-rose-600 shrink-0 mt-0.5" />
             <div>
               <strong className="font-semibold block text-rose-900">
-                No se pudo procesar la solicitud con el backend
+                Aviso del Sistema
               </strong>
               <p className="mt-0.5 text-rose-700">{errorMsg}</p>
-              <p className="mt-1 text-zinc-500">
-                Asegúrate de tener FastAPI ejecutándose en{" "}
-                <code className="text-zinc-900 font-mono bg-zinc-100 px-1 py-0.5 rounded border border-zinc-200">
-                  http://localhost:8000
-                </code>
-                .
-              </p>
             </div>
           </div>
         )}
 
-        {/* 1. VISTA PÚBLICA: Portal Ciudadano */}
+        {/* 1. Vista Pública: Portal Ciudadano */}
         {currentUserRole === "public" && (
           <CitizenPortal
             filmingSets={filmingSets}
@@ -276,16 +364,18 @@ export default function App() {
           />
         )}
 
-        {/* 2. VISTA OPERADOR: Bandeja Human-in-the-Loop */}
+        {/* 2. Vista Operador: Bandeja Human-in-the-Loop */}
         {currentUserRole === "operator" && (
-          <OperatorValidationDesk recentTriage={singleResult} />
+          <OperatorValidationDesk
+            tickets={tickets}
+            onApproveTicket={handleApproveTicket}
+            onReassignTicket={handleReassignTicket}
+          />
         )}
 
-        {/* 3. VISTA ADMIN: Consola Técnica y Benchmark */}
+        {/* 3. Vista Admin: Consola de Inferencia y Benchmark */}
         {currentUserRole === "admin" && (
           <div className="space-y-6">
-            
-            {/* Sub-navegador de Auditoría Técnica */}
             <div className="flex items-center justify-between border-b border-zinc-200 pb-4">
               <div>
                 <h2 className="text-xl font-bold text-zinc-900 flex items-center gap-2">
@@ -325,10 +415,32 @@ export default function App() {
               </div>
             </div>
 
-            {/* Formulario de Ingesta */}
+            {/* Selector de Quejas Reales Registradas en Cola */}
+            {tickets.length > 0 && (
+              <div className="bg-white border border-zinc-200 rounded-xl p-4 shadow-sm text-xs space-y-2">
+                <div className="flex items-center gap-1.5 font-bold text-zinc-800">
+                  <Layers className="w-4 h-4 text-zinc-700" />
+                  <span>Auditar Quejas Reales de la Cola Ciudadana:</span>
+                </div>
+                <div className="flex flex-wrap gap-2">
+                  {tickets.map((t) => (
+                    <button
+                      key={t.id}
+                      type="button"
+                      onClick={() =>
+                        handleTriageSubmit(t.reporte_original, "cloud_groq")
+                      }
+                      className="px-2.5 py-1.5 rounded-lg bg-zinc-100 hover:bg-yellow-300 hover:text-zinc-900 border border-zinc-200 text-zinc-700 transition-colors text-left"
+                    >
+                      <strong>{t.id}:</strong> {t.categoria} ({t.ubicacion})
+                    </button>
+                  ))}
+                </div>
+              </div>
+            )}
+
             <TriageForm onSubmit={handleTriageSubmit} isLoading={isLoading} />
 
-            {/* Resultado Individual */}
             {adminTab === "single" && singleResult && !isLoading && (
               <div className="space-y-4">
                 <h3 className="text-xs font-bold uppercase tracking-wider text-zinc-600 flex items-center gap-1.5">
@@ -339,7 +451,6 @@ export default function App() {
               </div>
             )}
 
-            {/* Resultado Benchmark */}
             {adminTab === "compare" && compareResult && !isLoading && (
               <div className="space-y-4">
                 <h3 className="text-xs font-bold uppercase tracking-wider text-zinc-600 flex items-center gap-1.5">
@@ -350,27 +461,24 @@ export default function App() {
               </div>
             )}
 
-            {/* Estado Vacío */}
             {!singleResult && !compareResult && !isLoading && !errorMsg && (
               <div className="border border-dashed border-zinc-300 bg-white rounded-2xl p-10 text-center text-zinc-500 text-xs flex flex-col items-center justify-center gap-2 shadow-sm">
                 <RefreshCw className="w-6 h-6 text-zinc-400 animate-pulse" />
                 <span>
-                  Selecciona un caso de prueba o escribe una incidencia para ejecutar la inferencia.
+                  Selecciona una queja real de la lista o escribe en el
+                  formulario para ejecutar la inferencia.
                 </span>
               </div>
             )}
-
           </div>
         )}
-
       </main>
 
-      {/* Footer */}
       <footer className="border-t border-zinc-200 bg-white px-6 py-4 text-center text-xs text-zinc-500">
-        FilmCity IA © 2026 • Mediación Inteligente y Screen Tourism • Desarrollado para Bootcamp IA & Data | Somos F5
+        FilmCity IA © 2026 • Mediación Inteligente y Screen Tourism •
+        Desarrollado para Bootcamp IA & Data | Somos F5
       </footer>
 
-      {/* Modal de Autenticación */}
       <AuthModal
         isOpen={isAuthModalOpen}
         initialRole={authModalInitialRole}
