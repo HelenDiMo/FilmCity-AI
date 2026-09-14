@@ -116,7 +116,7 @@ export default function App() {
               onClick={() => setActiveTab("compare")}
               className={`px-3.5 py-1.5 rounded-md font-medium flex items-center gap-1.5 transition-all ${
                 activeTab === "compare"
-                  ? "bg-black text-white shadow"
+                  ? "bg-black text-yellow-300"
                   : "text-slate-500 hover:text-slate-700"
               }`}
             >
