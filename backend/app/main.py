@@ -3,6 +3,7 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
+from app.api.v1.endpoints.sets import router as sets_router
 from app.api.v1.endpoints.triage import router as triage_router
 from app.core.config import settings
 
@@ -25,6 +26,7 @@ app.add_middleware(
 
 # Registrar rutas bajo el prefijo /api/v1/triage
 app.include_router(triage_router, prefix=f"{settings.API_V1_PREFIX}/triage")
+app.include_router(sets_router, prefix=settings.API_V1_PREFIX)
 
 
 @app.get("/health", tags=["Estado del Sistema"])
