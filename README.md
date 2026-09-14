@@ -1,12 +1,12 @@
-# 🎬 FilmCity IA — Plataforma Inteligente de Triaje y Mediación de Rodajes Urbanos
+# 🎬 FilmCity AI — Plataforma Inteligente de Triaje y Mediación de Rodajes Urbanos
 
 [![FastAPI](https://img.shields.io/badge/Backend-FastAPI-009688?style=flat&logo=fastapi)](https://fastapi.tiangolo.com/)
 [![React](https://img.shields.io/badge/Frontend-React%20%2B%20Vite-61DAFB?style=flat&logo=react)](https://react.dev/)
 [![Pydantic v2](https://img.shields.io/badge/Validation-Pydantic%20v2-E92063?style=flat&logo=pydantic)](https://docs.pydantic.dev/)
-[![Pytest](https://img.shields.io/badge/Testing-Pytest%20(100%25%20Passed)-brightgreen?style=flat&logo=pytest)](https://pytest.org/)
+[![Pytest](<https://img.shields.io/badge/Testing-Pytest%20(100%25%20Passed)-brightgreen?style=flat&logo=pytest>)](https://pytest.org/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-**FilmCity IA** es una solución cívico-tecnológica diseñada para la mediación y gestión operativa de rodajes audiovisuales en el espacio público (Madrid Film Office). La plataforma implementa un pipeline de triaje automatizado con modelos LLM de código abierto, razonamiento estructurado **ReAct**, validación determinista de esquemas mediante Pydantic y una arquitectura **Human-in-the-Loop (HITL)** para la supervisión y validación por parte de operadores municipales.
+**FilmCity AI** es una solución cívico-tecnológica diseñada para la mediación y gestión operativa de rodajes audiovisuales en el espacio público (Madrid Film Office). La plataforma implementa un pipeline de triaje automatizado con modelos LLM de código abierto, razonamiento estructurado **ReAct**, validación determinista de esquemas mediante Pydantic y una arquitectura **Human-in-the-Loop (HITL)** para la supervisión y validación por parte de operadores municipales.
 
 ---
 
@@ -48,13 +48,13 @@
 
 ### Principios y Decisiones de Diseño
 
-* **Ecosistema Abierto & Multi-Proveedor:** Desacoplamiento de la infraestructura de inferencia mediante el patrón *Strategy/Provider*. Permite alternar en tiempo de ejecución entre **Groq Cloud API** (Llama 3.3 70B para alto rendimiento) y **Ollama Local** (Qwen 2.5 Coder para soberanía de datos estricta y privacidad).
-* **Razonamiento ReAct (Reasoning + Acting):** Inyección de directrices en tres fases auditables:
-  * **Thought:** Análisis contextual del incidente y riesgos de movilidad/seguridad.
-  * **Action:** Protocolo municipal aplicable y comprobación de permisos.
-  * **Observation:** Determinación de prioridad operativa y asignación departamental.
-* **Validación Estricta & Parsing Defensivo:** Modelado con **Pydantic v2** y enumeraciones cerradas (`UrgencyLevel`, `IncidentCategory`, `Department`). Incluye sanitización automática para restringir la síntesis ejecutiva a un máximo estricto de 10 palabras y tolerancia a respuestas truncadas.
-* **Human-in-the-Loop (HITL):** El modelo genera un dictamen preliminar que es auditado en tiempo real por el operador municipal, quien cuenta con la potestad de confirmar o reasignar el expediente antes de su derivación a los servicios de calle.
+- **Ecosistema Abierto & Multi-Proveedor:** Desacoplamiento de la infraestructura de inferencia mediante el patrón _Strategy/Provider_. Permite alternar en tiempo de ejecución entre **Groq Cloud API** (Llama 3.3 70B para alto rendimiento) y **Ollama Local** (Qwen 2.5 Coder para soberanía de datos estricta y privacidad).
+- **Razonamiento ReAct (Reasoning + Acting):** Inyección de directrices en tres fases auditables:
+  - **Thought:** Análisis contextual del incidente y riesgos de movilidad/seguridad.
+  - **Action:** Protocolo municipal aplicable y comprobación de permisos.
+  - **Observation:** Determinación de prioridad operativa y asignación departamental.
+- **Validación Estricta & Parsing Defensivo:** Modelado con **Pydantic v2** y enumeraciones cerradas (`UrgencyLevel`, `IncidentCategory`, `Department`). Incluye sanitización automática para restringir la síntesis ejecutiva a un máximo estricto de 10 palabras y tolerancia a respuestas truncadas.
+- **Human-in-the-Loop (HITL):** El modelo genera un dictamen preliminar que es auditado en tiempo real por el operador municipal, quien cuenta con la potestad de confirmar o reasignar el expediente antes de su derivación a los servicios de calle.
 
 ---
 
@@ -88,10 +88,10 @@ FilmCity-AI/
 
 ### Prerrequisitos
 
-* Python 3.11+
-* Node.js 18+
-* Ollama local en ejecución (`ollama serve`) con el modelo `qwen2.5-coder` (opcional para inferencia local).
-* Clave de API de Groq Console.
+- Python 3.11+
+- Node.js 18+
+- Ollama local en ejecución (`ollama serve`) con el modelo `qwen2.5-coder` (opcional para inferencia local).
+- Clave de API de Groq Console.
 
 ### 1. Configuración del Backend
 
@@ -183,40 +183,42 @@ TOTAL                                   234     68    71%
 
 ## 📊 Matriz Comparativa: Groq Cloud vs. Ollama Local
 
-| Métrica / Dimensión | Groq Cloud API (Llama 3.3 70B) | Ollama Local (Qwen 2.5 Coder) |
-|---|---|---|
-| **Latencia Promedio** | ~250 ms – 450 ms (Hardware LPU) | ~1.800 ms – 3.200 ms (CPU/GPU local) |
-| **Coste Operativo** | ~$0.00005 USD / petición | $0.00000 USD (Sin coste de tokens) |
-| **Privacidad / RGPD** | Procesamiento en infraestructura cloud | 100% On-Premise / Soberanía Total |
-| **Escenario Óptimo** | Picos de tráfico y alta concurrencia | Incidencias confidenciales / Modo offline |
+| Métrica / Dimensión   | Groq Cloud API (Llama 3.3 70B)         | Ollama Local (Qwen 2.5 Coder)             |
+| --------------------- | -------------------------------------- | ----------------------------------------- |
+| **Latencia Promedio** | ~250 ms – 450 ms (Hardware LPU)        | ~1.800 ms – 3.200 ms (CPU/GPU local)      |
+| **Coste Operativo**   | ~$0.00005 USD / petición               | $0.00000 USD (Sin coste de tokens)        |
+| **Privacidad / RGPD** | Procesamiento en infraestructura cloud | 100% On-Premise / Soberanía Total         |
+| **Escenario Óptimo**  | Picos de tráfico y alta concurrencia   | Incidencias confidenciales / Modo offline |
 
 ---
 
 ## 🎨 Sistema de Diseño y Colorimetría
 
-La interfaz de FilmCity IA utiliza una paleta en modo oscuro (*Dark Mode UI*) orientada a consolas operativas y salas de control municipal, combinando alto contraste para accesibilidad y codificación semántica de estados:
+La interfaz de FilmCity AI utiliza una paleta en modo oscuro (_Dark Mode UI_) orientada a consolas operativas y salas de control municipal, combinando alto contraste para accesibilidad y codificación semántica de estados:
 
 ### 1. Paleta de Superficies y Jerarquía Visual
 
-| Elemento / Capa | Clase Tailwind | Hex / Token | Propósito y Uso |
-| :--- | :--- | :--- | :--- |
-| **Fondo Principal** | `bg-neutral-900` / `bg-slate-950` | ![#0f172a](https://img.shields.io/badge/-%230f172a-0f172a) ![#171717](https://img.shields.io/badge/-%23171717-171717) | Lienzo base de baja fatiga visual para turnos de monitoreo continuo. |
-| **Tarjetas y Paneles** | `bg-neutral-700` | ![#3f3f46](https://img.shields.io/badge/-%233f3f46-3f3f46) | Contenedores principales de dictámenes y formularios (elevación visual). |
-| **Bloques Interiores** | `bg-neutral-900` / `bg-neutral-800` | ![#18181b](https://img.shields.io/badge/-%2318181b-18181b) ![#27272a](https://img.shields.io/badge/-%2327272a-27272a) | Cajas de métricas, síntesis ejecutiva y trazas ReAct. |
-| **Acento Primario** | `bg-yellow-400` / `text-zinc-950` | ![#facc15](https://img.shields.io/badge/-%23facc15-facc15) | Acciones principales (*Call to Action*), iconos cinematográficos y foco. |
+| Elemento / Capa        | Clase Tailwind                      | Hex / Token                                                                                                           | Propósito y Uso                                                          |
+| :--------------------- | :---------------------------------- | :-------------------------------------------------------------------------------------------------------------------- | :----------------------------------------------------------------------- |
+| **Fondo Principal**    | `bg-neutral-900` / `bg-slate-950`   | ![#0f172a](https://img.shields.io/badge/-%230f172a-0f172a) ![#171717](https://img.shields.io/badge/-%23171717-171717) | Lienzo base de baja fatiga visual para turnos de monitoreo continuo.     |
+| **Tarjetas y Paneles** | `bg-neutral-700`                    | ![#3f3f46](https://img.shields.io/badge/-%233f3f46-3f3f46)                                                            | Contenedores principales de dictámenes y formularios (elevación visual). |
+| **Bloques Interiores** | `bg-neutral-900` / `bg-neutral-800` | ![#18181b](https://img.shields.io/badge/-%2318181b-18181b) ![#27272a](https://img.shields.io/badge/-%2327272a-27272a) | Cajas de métricas, síntesis ejecutiva y trazas ReAct.                    |
+| **Acento Primario**    | `bg-yellow-400` / `text-zinc-950`   | ![#facc15](https://img.shields.io/badge/-%23facc15-facc15)                                                            | Acciones principales (_Call to Action_), iconos cinematográficos y foco. |
 
 ### 2. Semántica de Proveedores (Benchmarking)
- 
-* 🟠 **Groq Cloud API:** Identificado con acento **Naranja Oficial (`bg-orange-600` / `#ea580c`)**, asociado al isotipo del rayo LPU y a la alta velocidad de procesamiento en la nube.
-* ⚪ **Ollama Local:** Identificado con acento **Blanco / Ámbar (`text-white` & `text-amber-400` / `#ffffff`)**, representando la soberanía de datos *On-Premise* y la inferencia local sin coste.
+
+- 🟠 **Groq Cloud API:** Identificado con acento **Naranja Oficial (`bg-orange-600` / `#ea580c`)**, asociado al isotipo del rayo LPU y a la alta velocidad de procesamiento en la nube.
+- ⚪ **Ollama Local:** Identificado con acento **Blanco / Ámbar (`text-white` & `text-amber-400` / `#ffffff`)**, representando la soberanía de datos _On-Premise_ y la inferencia local sin coste.
+
 ### 3. Codificación Semántica de Urgencia (HITL)
- 
+
 ```text
 🔵 Baja      ──►  bg-blue-500/10    │  text-blue-400    │  border-blue-500/30
 🟢 Media     ──►  bg-emerald-500/10 │  text-emerald-400 │  border-emerald-500/30
 🟡 Alta      ──►  bg-amber-500/10   │  text-amber-400   │  border-amber-500/30
 🔴 Crítica   ──►  bg-rose-500/20    │  text-rose-400    │  border-rose-500/40
 ```
+
 ---
 
 ## 🛡️ Licencia
