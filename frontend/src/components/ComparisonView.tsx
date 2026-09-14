@@ -25,10 +25,10 @@ function GroqIcon({ className = "w-3.5 h-3.5" }: { className?: string }) {
 }
 
 // Logo original de Ollama (cabeza oficial de la llama)
-function OllamaIcon({ className = "w-3.5 h-3.5" }: { className?: string }) {
+function OllamaIcon({ className = "w-4 h-4" }: { className?: string }) {
   return (
     <img
-      src="https://cdn.simpleicons.org/ollama"
+      src="https://cdn.simpleicons.org/ollama/ffffff"
       alt="Ollama"
       className={`${className} object-contain`}
       loading="lazy"
