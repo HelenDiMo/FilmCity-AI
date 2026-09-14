@@ -1,7 +1,5 @@
 import type { CompareTriageResponse } from "../types/triage";
 import {
-  Zap,
-  Server,
   Clock,
   Cpu,
   DollarSign,
@@ -9,10 +7,34 @@ import {
   Building2,
   CheckCircle2,
   AlertCircle,
-  Sparkles,
-  ZapIcon,
-  GitCompare
+  GitCompare,
 } from "lucide-react";
+
+// Isotipo oficial de Groq (Rayo de velocidad LPUs)
+function GroqIcon({ className = "w-3.5 h-3.5" }: { className?: string }) {
+  return (
+    <svg
+      className={className}
+      viewBox="0 0 24 24"
+      fill="currentColor"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path d="M13 2L3 14H12L11 22L21 10H12L13 2Z" />
+    </svg>
+  );
+}
+
+// Logo original de Ollama (cabeza oficial de la llama)
+function OllamaIcon({ className = "w-3.5 h-3.5" }: { className?: string }) {
+  return (
+    <img
+      src="https://cdn.simpleicons.org/ollama"
+      alt="Ollama"
+      className={`${className} object-contain`}
+      loading="lazy"
+    />
+  );
+}
 
 interface ComparisonViewProps {
   data: CompareTriageResponse;
@@ -82,10 +104,10 @@ export function ComparisonView({ data }: ComparisonViewProps) {
       {/* Grid Comparativo 2 Columnas */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         {/* Tarjeta Cloud (Groq) */}
-        <div className="bg-slate-900/90 border border-red-900/30 rounded-xl p-5 shadow-xl space-y-4">
-          <div className="flex items-center justify-between border-b border-slate-800 pb-3">
+        <div className="bg-neutral-700 border border-neutral-800 rounded-xl p-5 shadow-xl space-y-4">
+          <div className="flex items-center justify-between border-b border-neutral-800 pb-3">
             <div className="flex items-center gap-2">
-              <Zap className="w-5 h-5 text-red-500" />
+              <GroqIcon className="w-4 h-4 shrink-0 text-orange-600 fill-orange-600" />{" "}
               <span className="font-bold text-white text-sm">
                 Groq Cloud API
               </span>
@@ -96,7 +118,7 @@ export function ComparisonView({ data }: ComparisonViewProps) {
           </div>
 
           {/* Métricas Cloud */}
-          <div className="grid grid-cols-3 gap-2 bg-slate-950/80 p-3 rounded-lg border border-slate-800 text-xs">
+          <div className="grid grid-cols-3 gap-2 bg-neutral-900 p-3 rounded-lg border border-slate-800 text-xs">
             <div>
               <span className="text-slate-500 flex items-center gap-1">
                 <Clock className="w-3 h-3" /> Latencia
@@ -146,7 +168,7 @@ export function ComparisonView({ data }: ComparisonViewProps) {
                 {cloudRes.departamento_asignado}
               </p>
             </div>
-            <div className="p-2.5 bg-slate-950/50 rounded border border-slate-800/60">
+            <div className="p-2.5 bg-neutral-900 rounded border border-slate-800/60">
               <span className="text-slate-500 block mb-1">Síntesis:</span>
               <p className="text-slate-300 italic">
                 "{cloudRes.resumen_10_palabras}"
@@ -156,10 +178,10 @@ export function ComparisonView({ data }: ComparisonViewProps) {
         </div>
 
         {/* Tarjeta Local (Ollama) */}
-        <div className="bg-slate-900/90 border border-amber-900/30 rounded-xl p-5 shadow-xl space-y-4">
+        <div className="bg-neutral-700 border border-amber-900/30 rounded-xl p-5 shadow-xl space-y-4">
           <div className="flex items-center justify-between border-b border-slate-800 pb-3">
             <div className="flex items-center gap-2">
-              <Server className="w-5 h-5 text-amber-500" />
+              <OllamaIcon className="w-5 h-5 text-amber-500" />
               <span className="font-bold text-white text-sm">Ollama Local</span>
             </div>
             <span className="text-xs bg-amber-500/10 text-amber-400 border border-amber-500/20 px-2 py-0.5 rounded font-mono">
@@ -168,7 +190,7 @@ export function ComparisonView({ data }: ComparisonViewProps) {
           </div>
 
           {/* Métricas Local */}
-          <div className="grid grid-cols-3 gap-2 bg-slate-950/80 p-3 rounded-lg border border-slate-800 text-xs">
+          <div className="grid grid-cols-3 gap-2 bg-neutral-900 p-3 rounded-lg border border-slate-800 text-xs">
             <div>
               <span className="text-slate-500 flex items-center gap-1">
                 <Clock className="w-3 h-3" /> Latencia
@@ -218,7 +240,7 @@ export function ComparisonView({ data }: ComparisonViewProps) {
                 {localRes.departamento_asignado}
               </p>
             </div>
-            <div className="p-2.5 bg-slate-950/50 rounded border border-slate-800/60">
+            <div className="p-2.5 bg-neutral-900 rounded border border-slate-800/60">
               <span className="text-slate-500 block mb-1">Síntesis:</span>
               <p className="text-slate-300 italic">
                 "{localRes.resumen_10_palabras}"

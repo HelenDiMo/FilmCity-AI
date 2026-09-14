@@ -91,7 +91,7 @@ export function TriageResultCard({ data }: TriageResultCardProps) {
       {/* Resumen Ejecutivo y Asignación */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         {/* Resumen 10 palabras */}
-        <div className="bg-neutral-900 border border-yellow-100/60 rounded-lg p-4">
+        <div className="bg-neutral-900 border border-yellow-500/20 rounded-lg p-4">
           <span className="text-xs text-slate-400 font-semibold uppercase tracking-wider flex items-center gap-1.5 mb-1.5">
             <FileText className="w-4 h-4 text-amber-400" />
             Síntesis Ejecutiva (≤ 10 palabras)
@@ -102,7 +102,7 @@ export function TriageResultCard({ data }: TriageResultCardProps) {
         </div>
 
         {/* Departamento Asignado */}
-        <div className="bg-neutral-900 border border-yellow-100/60 rounded-lg p-4">
+        <div className="bg-neutral-900 border border-yellow-500/20 rounded-lg p-4">
           <span className="text-xs text-slate-400 font-semibold uppercase tracking-wider flex items-center gap-1.5 mb-1.5">
             <Building2 className="w-4 h-4 text-cyan-400" />
             Derivación Municipal
@@ -114,7 +114,7 @@ export function TriageResultCard({ data }: TriageResultCardProps) {
       </div>
 
       {/* Acciones e Impacto */}
-      <div className="grid grid-cols-1 gap-3 text-xs bg-neutral-900 p-4 rounded-lg border border-yellow-100/60">
+      <div className="grid grid-cols-1 gap-3 text-xs bg-neutral-900 p-4 rounded-lg border border-yellow-500/20">
         <div>
           <span className="font-semibold text-slate-300">
             Justificación de Prioridad:{" "}
@@ -135,7 +135,7 @@ export function TriageResultCard({ data }: TriageResultCardProps) {
 
       {/* Razonamiento ReAct (Human-in-the-Loop) */}
       {resultado.react_reasoning && (
-        <div className="border border-yellow-100/60 rounded-lg overflow-hidden bg-neutral-900">
+        <div className="border border-yellow-500/20 rounded-lg overflow-hidden bg-neutral-900">
           <button
             type="button"
             onClick={() => setShowReasoning(!showReasoning)}

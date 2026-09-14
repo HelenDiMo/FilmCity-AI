@@ -41,7 +41,12 @@ const PRESET_CASES = [
 // Isotipo oficial de Groq (Rayo de velocidad LPUs)
 function GroqIcon({ className = "w-3.5 h-3.5" }: { className?: string }) {
   return (
-    <svg className={className} viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+    <svg
+      className={className}
+      viewBox="0 0 24 24"
+      fill="currentColor"
+      xmlns="http://www.w3.org/2000/svg"
+    >
       <path d="M13 2L3 14H12L11 22L21 10H12L13 2Z" />
     </svg>
   );
@@ -73,7 +78,6 @@ export function TriageForm({ onSubmit, isLoading }: TriageFormProps) {
   };
 
   return (
-
     <div className="bg-neutral-700 border border-slate-800 rounded-xl p-6 shadow-xl backdrop-blur-sm">
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-4">
         <div>
@@ -87,23 +91,23 @@ export function TriageForm({ onSubmit, isLoading }: TriageFormProps) {
         </div>
 
         {/* Selector de Proveedor LLM */}
-        <div className="flex items-center bg-neutral-900 p-1 rounded-lg border border-slate-800 text-xs self-start sm:self-auto">
+        <div className="flex items-center bg-neutral-900 p-1 rounded-lg border border-slate-800 text-xs self-start sm:self-auto gap-1">
           <button
             type="button"
             onClick={() => setProvider("cloud_groq")}
-            className={`px-3 py-1.5 rounded-md font-medium transition-all ${
+            className={`flex items-center gap-2 px-3 py-1.5 rounded-md font-medium transition-all ${
               provider === "cloud_groq"
                 ? "bg-orange-600 text-white shadow"
                 : "text-slate-400 hover:text-white"
             }`}
           >
             <GroqIcon className="w-3.5 h-3.5 shrink-0" />
-            Groq Cloud (Cloud)
+            <span>Groq Cloud (Cloud)</span>{" "}
           </button>
           <button
             type="button"
             onClick={() => setProvider("local_ollama")}
-            className={`px-3 py-1.5 rounded-md font-medium transition-all ${
+            className={`flex items-center gap-2 px-3 py-1.5 rounded-md font-medium transition-all ${
               provider === "local_ollama"
                 ? "bg-white text-black shadow"
                 : "text-slate-400 hover:text-white"
