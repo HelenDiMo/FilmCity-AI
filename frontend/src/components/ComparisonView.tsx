@@ -251,7 +251,7 @@ export function ComparisonView({ data }: ComparisonViewProps) {
       </div>
 
       {/* Conclusión del Benchmark */}
-      <div className="p-4 bg-slate-950/70 border border-slate-800 rounded-lg text-xs text-slate-400 leading-relaxed">
+      <div className="p-4 bg-neutral-600 border border-slate-800 rounded-lg text-xs text-slate-400 leading-relaxed">
         <strong className="text-slate-200 block mb-1">
           Análisis de Trade-off para Madrid Film Office:
         </strong>
