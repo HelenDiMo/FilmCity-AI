@@ -155,7 +155,7 @@ export function TriageForm({ onSubmit, isLoading }: TriageFormProps) {
           <button
             type="submit"
             disabled={!texto.trim() || isLoading}
-            className="w-full sm:w-auto flex items-center justify-center gap-2 px-5 py-2.5 bg-red-600 hover:bg-red-700 disabled:bg-slate-800 disabled:text-slate-600 disabled:cursor-not-allowed text-white font-medium text-sm rounded-lg shadow-lg shadow-red-900/30 transition-all active:scale-95"
+            className="w-full sm:w-auto flex items-center justify-center gap-2 px-5 py-2.5 bg-yellow-400 hover:bg-yellow-500 disabled:bg-slate-800 disabled:text-slate-600 disabled:cursor-not-allowed text-zinc-950 font-bold text-sm rounded-lg shadow-lg transition-all active:scale-95"
           >
             {isLoading ? (
               <>
