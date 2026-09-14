@@ -40,6 +40,14 @@ class LLMTriageOutput(BaseModel):
         ...,
         description="Nivel de urgencia evaluado: Baja, Media, Alta o Crítica.",
     )
+    justificacion_urgencia: str = Field(
+        ...,
+        description="Explicación concisa del motivo por el cual se asigna ese nivel de urgencia.",
+    )
+    accion_inmediata_recomendada: str = Field(
+        ...,
+        description="Acción operativa concreta e inmediata que debe ejecutar el departamento asignado.",
+    )
     resumen_10_palabras: str = Field(
         ...,
         description="Resumen conciso del reporte en un máximo estricto de 10 palabras.",

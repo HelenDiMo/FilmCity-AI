@@ -27,6 +27,8 @@ Antes de clasificar, debes completar el ciclo de razonamiento:
 - **Niveles de urgencia permitidos:** {[u.value for u in UrgencyLevel]}
 - **Departamentos permitidos:** {[d.value for d in Department]}
 - **Resumen:** Máximo estricto de 10 palabras que sintetice la incidencia.
+- **Justificación:** Motivo conciso de la urgencia asignada.
+- **Acción Inmediata:** Paso operativo directo a ejecutar por el departamento.
 
 ### FORMATO DE SALIDA REQUERIDO:
 Debes responder ÚNICAMENTE con un objeto JSON válido que cumpla este esquema, sin texto conversacional ni explicaciones adicionales fuera del JSON:
@@ -38,6 +40,8 @@ Debes responder ÚNICAMENTE con un objeto JSON válido que cumpla este esquema, 
   }},
   "categoria": "<una de las categorías permitidas>",
   "nivel_urgencia": "<Baja | Media | Alta | Crítica>",
+  "justificacion_urgencia": "<explicación concisa del porqué del nivel de urgencia>",
+  "accion_inmediata_recomendada": "<acción operativa inmediata a realizar>",
   "resumen_10_palabras": "<resumen de máximo 10 palabras>",
   "departamento_asignado": "<uno de los departamentos permitidos>"
 }}
@@ -59,6 +63,8 @@ FEW_SHOT_EXAMPLES = [
   },
   "categoria": "Bloqueo de Vados y Accesos de Emergencia",
   "nivel_urgencia": "Alta",
+  "justificacion_urgencia": "Bloqueo activo de vía de evacuación médica y presencia de cristales con riesgo de lesiones.",
+  "accion_inmediata_recomendada": "Desplazar patrulla para despejar la salida sanitaria y solicitar brigada de limpieza urgente.",
   "resumen_10_palabras": "Aglomeración bloquea salida de emergencias sanitaria con cristales rotos",
   "departamento_asignado": "Seguridad Ciudadana"
 }""",
@@ -77,6 +83,8 @@ FEW_SHOT_EXAMPLES = [
   },
   "categoria": "Acumulación de Residuos en Escenarios",
   "nivel_urgencia": "Baja",
+  "justificacion_urgencia": "Residuos menores en mobiliario urbano sin riesgo para la seguridad ni daño patrimonial.",
+  "accion_inmediata_recomendada": "Incorporar la limpieza del banco en la siguiente ruta ordinaria del servicio.",
   "resumen_10_palabras": "Folletos de ruta de cine abandonados en banco público",
   "departamento_asignado": "Limpieza Especial"
 }""",
