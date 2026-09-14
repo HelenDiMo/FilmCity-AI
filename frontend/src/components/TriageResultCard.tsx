@@ -56,12 +56,12 @@ export function TriageResultCard({ data }: TriageResultCardProps) {
     URGENCY_CONFIG[resultado.nivel_urgencia] || URGENCY_CONFIG.Media;
 
   return (
-    <div className="bg-slate-900/90 border border-slate-800 rounded-xl p-6 shadow-xl backdrop-blur-sm space-y-6">
+    <div className="bg-neutral-700 border border-slate-800 rounded-xl p-6 shadow-xl backdrop-blur-sm space-y-6">
       {/* Header del Dictamen */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-800/80 pb-4">
         <div>
           <span className="text-xs uppercase font-bold tracking-wider text-slate-400 flex items-center gap-1.5">
-            <Sparkles className="w-3.5 h-3.5 text-red-500" />
+            <Sparkles className="w-3.5 h-3.5 text-yellow-400" />
             Dictamen Oficial de Triaje
           </span>
           <h3 className="text-lg font-bold text-white mt-0.5">
@@ -91,7 +91,7 @@ export function TriageResultCard({ data }: TriageResultCardProps) {
       {/* Resumen Ejecutivo y Asignación */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         {/* Resumen 10 palabras */}
-        <div className="bg-slate-950/70 border border-slate-800/80 rounded-lg p-4">
+        <div className="bg-neutral-900 border border-slate-800/80 rounded-lg p-4">
           <span className="text-xs text-slate-400 font-semibold uppercase tracking-wider flex items-center gap-1.5 mb-1.5">
             <FileText className="w-4 h-4 text-amber-400" />
             Síntesis Ejecutiva (≤ 10 palabras)
@@ -102,7 +102,7 @@ export function TriageResultCard({ data }: TriageResultCardProps) {
         </div>
 
         {/* Departamento Asignado */}
-        <div className="bg-slate-950/70 border border-slate-800/80 rounded-lg p-4">
+        <div className="bg-neutral-900 border border-slate-800/80 rounded-lg p-4">
           <span className="text-xs text-slate-400 font-semibold uppercase tracking-wider flex items-center gap-1.5 mb-1.5">
             <Building2 className="w-4 h-4 text-cyan-400" />
             Derivación Municipal
@@ -114,7 +114,7 @@ export function TriageResultCard({ data }: TriageResultCardProps) {
       </div>
 
       {/* Acciones e Impacto */}
-      <div className="grid grid-cols-1 gap-3 text-xs bg-slate-950/40 p-4 rounded-lg border border-slate-800/50">
+      <div className="grid grid-cols-1 gap-3 text-xs bg-neutral-900 p-4 rounded-lg border border-slate-800/50">
         <div>
           <span className="font-semibold text-slate-300">
             Justificación de Prioridad:{" "}
@@ -135,11 +135,11 @@ export function TriageResultCard({ data }: TriageResultCardProps) {
 
       {/* Razonamiento ReAct (Human-in-the-Loop) */}
       {resultado.react_reasoning && (
-        <div className="border border-slate-800 rounded-lg overflow-hidden bg-slate-950/60">
+        <div className="border border-slate-800 rounded-lg overflow-hidden bg-neutral-900">
           <button
             type="button"
             onClick={() => setShowReasoning(!showReasoning)}
-            className="w-full flex items-center justify-between p-3.5 text-xs font-semibold text-slate-300 hover:bg-slate-800/40 transition-colors"
+            className="w-full flex items-center justify-between p-3.5 text-xs font-semibold text-slate-300 hover:bg-neutral-800 transition-colors"
           >
             <span className="flex items-center gap-2">
               <HelpCircle className="w-4 h-4 text-purple-400" />
@@ -154,7 +154,7 @@ export function TriageResultCard({ data }: TriageResultCardProps) {
 
           {showReasoning && (
             <div className="p-4 pt-1 space-y-2.5 text-xs border-t border-slate-800/60 font-mono">
-              <div className="p-2.5 rounded bg-slate-900/80 border-l-2 border-purple-500">
+              <div className="p-2.5 rounded bg-neutral-800 border-l-2 border-purple-500">
                 <span className="font-bold text-purple-400 block mb-0.5">
                   THOUGHT (Pensamiento):
                 </span>
@@ -162,7 +162,7 @@ export function TriageResultCard({ data }: TriageResultCardProps) {
                   {resultado.react_reasoning.thought}
                 </span>
               </div>
-              <div className="p-2.5 rounded bg-slate-900/80 border-l-2 border-blue-500">
+              <div className="p-2.5 rounded bg-neutral-800 border-l-2 border-blue-500">
                 <span className="font-bold text-blue-400 block mb-0.5">
                   ACTION (Acción de Búsqueda/Cálculo):
                 </span>
@@ -170,7 +170,7 @@ export function TriageResultCard({ data }: TriageResultCardProps) {
                   {resultado.react_reasoning.action}
                 </span>
               </div>
-              <div className="p-2.5 rounded bg-slate-900/80 border-l-2 border-emerald-500">
+              <div className="p-2.5 rounded bg-neutral-800 border-l-2 border-emerald-500">
                 <span className="font-bold text-emerald-400 block mb-0.5">
                   OBSERVATION (Evidencia / Decisión):
                 </span>

@@ -53,11 +53,11 @@ export function TriageForm({ onSubmit, isLoading }: TriageFormProps) {
   };
 
   return (
-    <div className="bg-slate-900/90 border border-slate-800 rounded-xl p-6 shadow-xl backdrop-blur-sm">
+    <div className="bg-neutral-700 border border-slate-800 rounded-xl p-6 shadow-xl backdrop-blur-sm">
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-4">
         <div>
           <h2 className="text-xl font-bold text-white flex items-center gap-2">
-            <Film className="w-5 h-5 text-red-500" />
+            <Film className="w-5 h-5 text-yellow-400" />
             Reporte de Mediación y Rodajes
           </h2>
           <p className="text-xs text-slate-400">
@@ -66,28 +66,28 @@ export function TriageForm({ onSubmit, isLoading }: TriageFormProps) {
         </div>
 
         {/* Selector de Proveedor LLM */}
-        <div className="flex items-center bg-slate-950 p-1 rounded-lg border border-slate-800 text-xs self-start sm:self-auto">
+        <div className="flex items-center bg-neutral-900 p-1 rounded-lg border border-slate-800 text-xs self-start sm:self-auto">
           <button
             type="button"
             onClick={() => setProvider("cloud_groq")}
             className={`px-3 py-1.5 rounded-md font-medium transition-all ${
               provider === "cloud_groq"
-                ? "bg-red-600 text-white shadow"
+                ? "bg-orange-600 text-white shadow"
                 : "text-slate-400 hover:text-white"
             }`}
           >
-            Groq Cloud (Rápido)
+            Groq Cloud (Cloud)
           </button>
           <button
             type="button"
             onClick={() => setProvider("local_ollama")}
             className={`px-3 py-1.5 rounded-md font-medium transition-all ${
               provider === "local_ollama"
-                ? "bg-amber-600 text-white shadow"
+                ? "bg-white text-black shadow"
                 : "text-slate-400 hover:text-white"
             }`}
           >
-            Ollama Local (Privado)
+            Ollama Local (Local)
           </button>
         </div>
       </div>
@@ -105,9 +105,9 @@ export function TriageForm({ onSubmit, isLoading }: TriageFormProps) {
                 key={index}
                 type="button"
                 onClick={() => handleSelectPreset(preset.text)}
-                className="flex items-start gap-2.5 p-2.5 text-left rounded-lg bg-slate-950/60 hover:bg-slate-800/80 border border-slate-800/60 hover:border-slate-700 transition-all text-xs group"
+                className="flex items-start gap-2.5 p-2.5 text-left rounded-lg bg-neutral-900 hover:bg-neutral-800 border border-slate-800/60 hover:border-yellow-100/90 transition-all text-xs group"
               >
-                <Icon className="w-4 h-4 text-red-400 shrink-0 mt-0.5 group-hover:scale-110 transition-transform" />
+                <Icon className="w-4 h-4 text-yellow-400 shrink-0 mt-0.5 group-hover:scale-120 transition-transform" />
                 <div>
                   <span className="font-semibold text-slate-200 block">
                     {preset.title}
@@ -137,7 +137,7 @@ export function TriageForm({ onSubmit, isLoading }: TriageFormProps) {
             value={texto}
             onChange={(e) => setTexto(e.target.value)}
             placeholder="Describe la situación (ej. calle, producción involucrada, obstáculo, ruido o consulta)..."
-            className="w-full bg-slate-950 border border-slate-800 rounded-lg p-3 text-sm text-slate-100 placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-red-500/50 focus:border-red-500 transition-all resize-none"
+            className="w-full bg-slate-950 border border-slate-800 rounded-lg p-3 text-sm text-slate-100 placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-yellow-500/50 focus:border-yellow-400 transition-all resize-none"
             disabled={isLoading}
           />
         </div>
@@ -148,7 +148,7 @@ export function TriageForm({ onSubmit, isLoading }: TriageFormProps) {
             <strong className="text-slate-300">
               {provider === "cloud_groq"
                 ? "Llama 3.3 (Groq API)"
-                : "Llama 3 (Ollama Local)"}
+                : "Qwen 2.5 Coder (Ollama Local)"}
             </strong>
           </span>
 
