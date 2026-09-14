@@ -137,7 +137,7 @@ export function TriageForm({ onSubmit, isLoading }: TriageFormProps) {
             value={texto}
             onChange={(e) => setTexto(e.target.value)}
             placeholder="Describe la situación (ej. calle, producción involucrada, obstáculo, ruido o consulta)..."
-            className="w-full bg-slate-950 border border-slate-800 rounded-lg p-3 text-sm text-slate-100 placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-yellow-500/50 focus:border-yellow-400 transition-all resize-none"
+            className="w-full bg-neutral-900 border border-slate-800 rounded-lg p-3 text-sm text-slate-100 placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-yellow-500/50 focus:border-yellow-400 transition-all resize-none"
             disabled={isLoading}
           />
         </div>
@@ -155,7 +155,7 @@ export function TriageForm({ onSubmit, isLoading }: TriageFormProps) {
           <button
             type="submit"
             disabled={!texto.trim() || isLoading}
-            className="w-full sm:w-auto flex items-center justify-center gap-2 px-5 py-2.5 bg-yellow-400 hover:bg-yellow-500 disabled:bg-slate-800 disabled:text-slate-600 disabled:cursor-not-allowed text-zinc-950 font-bold text-sm rounded-lg shadow-lg transition-all active:scale-95"
+            className="w-full sm:w-auto flex items-center justify-center gap-2 px-5 py-2.5 bg-yellow-400 hover:bg-yellow-500 disabled:bg-neutral-900 disabled:text-slate-600 disabled:cursor-not-allowed text-zinc-950 font-bold text-sm rounded-lg shadow-lg transition-all active:scale-95"
           >
             {isLoading ? (
               <>
