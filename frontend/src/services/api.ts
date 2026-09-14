@@ -51,7 +51,9 @@ export async function compareTriage(
 export async function fetchActiveFilmingSets(): Promise<FilmingSet[]> {
   const response = await fetch(`${API_BASE_URL}/filming-sets/active`);
   if (!response.ok) {
-    throw new Error(`Error al obtener los sets de rodaje: ${response.statusText}`);
+    throw new Error(
+      `Error al obtener los sets de rodaje: ${response.statusText}`,
+    );
   }
   return response.json();
 }
