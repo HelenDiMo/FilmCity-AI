@@ -185,7 +185,7 @@ export function ComparisonView({ data }: ComparisonViewProps) {
               <span className="font-bold text-white text-sm">Ollama Local</span>
             </div>
             <span className="text-xs bg-amber-500/10 text-amber-400 border border-amber-500/20 px-2 py-0.5 rounded font-mono">
-              Llama 3 8B
+              Qwen 2.5 Coder
             </span>
           </div>
 
