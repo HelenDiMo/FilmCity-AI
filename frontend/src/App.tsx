@@ -239,8 +239,8 @@ export default function App() {
 
       {/* Footer */}
       <footer className="border-t border-zinc-200 bg-white px-6 py-4 text-center text-xs text-zinc-500">
-        FilmCity IA © 2026 • Desarrollado para Madrid Film Office • Mediación
-        Inteligente y Screen Tourism
+        FilmCity IA © 2026 • Mediación
+        Inteligente y Screen Tourism • Desarrollado para Bootcamp IA & Data | Somos F5   
       </footer>
     </div>
   );
