@@ -200,25 +200,23 @@ La interfaz de FilmCity IA utiliza una paleta en modo oscuro (*Dark Mode UI*) or
 
 | Elemento / Capa | Clase Tailwind | Hex / Token | Propósito y Uso |
 | :--- | :--- | :--- | :--- |
-| **Fondo Principal** | `bg-neutral-900` / `bg-slate-950` | `#0f172a` / `#171717` | Lienzo base de baja fatiga visual para turnos de monitoreo continuo. |
-| **Tarjetas y Paneles** | `bg-neutral-700` | `#3f3f46` | Contenedores principales de dictámenes y formularios (elevación visual). |
-| **Bloques Interiores** | `bg-neutral-900` / `bg-neutral-800` | `#18181b` / `#27272a` | Cajas de métricas, síntesis ejecutiva y trazas ReAct. |
-| **Acento Primario** | `bg-yellow-400` / `text-zinc-950` | `#facc15` | Acciones principales (*Call to Action*), iconos cinematográficos y foco. |
+| **Fondo Principal** | `bg-neutral-900` / `bg-slate-950` | ![#0f172a](https://img.shields.io/badge/-%230f172a-0f172a) ![#171717](https://img.shields.io/badge/-%23171717-171717) | Lienzo base de baja fatiga visual para turnos de monitoreo continuo. |
+| **Tarjetas y Paneles** | `bg-neutral-700` | ![#3f3f46](https://img.shields.io/badge/-%233f3f46-3f3f46) | Contenedores principales de dictámenes y formularios (elevación visual). |
+| **Bloques Interiores** | `bg-neutral-900` / `bg-neutral-800` | ![#18181b](https://img.shields.io/badge/-%2318181b-18181b) ![#27272a](https://img.shields.io/badge/-%2327272a-27272a) | Cajas de métricas, síntesis ejecutiva y trazas ReAct. |
+| **Acento Primario** | `bg-yellow-400` / `text-zinc-950` | ![#facc15](https://img.shields.io/badge/-%23facc15-facc15) | Acciones principales (*Call to Action*), iconos cinematográficos y foco. |
 
 ### 2. Semántica de Proveedores (Benchmarking)
-
+ 
 * 🟠 **Groq Cloud API:** Identificado con acento **Naranja Oficial (`bg-orange-600` / `#ea580c`)**, asociado al isotipo del rayo LPU y a la alta velocidad de procesamiento en la nube.
 * ⚪ **Ollama Local:** Identificado con acento **Blanco / Ámbar (`text-white` & `text-amber-400` / `#ffffff`)**, representando la soberanía de datos *On-Premise* y la inferencia local sin coste.
-
 ### 3. Codificación Semántica de Urgencia (HITL)
-
+ 
 ```text
 🔵 Baja      ──►  bg-blue-500/10    │  text-blue-400    │  border-blue-500/30
 🟢 Media     ──►  bg-emerald-500/10 │  text-emerald-400 │  border-emerald-500/30
 🟡 Alta      ──►  bg-amber-500/10   │  text-amber-400   │  border-amber-500/30
 🔴 Crítica   ──►  bg-rose-500/20    │  text-rose-400    │  border-rose-500/40
 ```
-
 ---
 
 ## 🛡️ Licencia
