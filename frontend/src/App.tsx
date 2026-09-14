@@ -24,7 +24,6 @@ import {
   ShieldCheck,
   AlertOctagon,
   RefreshCw,
-  Lock,
   LogOut,
   Terminal,
 } from "lucide-react";
