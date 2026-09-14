@@ -6,12 +6,10 @@ import {
   AlertCircle, 
   Send, 
   CheckCircle2, 
-  Film, 
   Volume2, 
   Truck, 
   Users, 
   FileQuestion,
-  Sparkles,
   ArrowRight
 } from 'lucide-react';
 
