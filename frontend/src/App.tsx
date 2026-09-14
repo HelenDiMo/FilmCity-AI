@@ -398,7 +398,7 @@ export default function App() {
                   }`}
                 >
                   <Activity className="w-3.5 h-3.5" />
-                  Triaje Individual
+                  Triaje Asistido
                 </button>
                 <button
                   type="button"
