@@ -80,3 +80,16 @@ export interface FilmingSet {
   tipo_ocupacion: string;
   estado: string;
 }
+
+export interface IncidentTicket {
+  id: string;
+  fecha: string;
+  ubicacion: string;
+  reporte_original: string;
+  categoria: IncidentCategory | string;
+  urgencia: UrgencyLevel;
+  departamento_propuesto: Department | string;
+  resumen: string;
+  estado: "Pendiente" | "Validado" | "Reasignado";
+  origen: "Ciudadano" | "Inspección Municipal";
+}
