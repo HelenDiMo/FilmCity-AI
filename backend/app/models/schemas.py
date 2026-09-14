@@ -57,16 +57,21 @@ class LLMTriageOutput(BaseModel):
         description="Departamento municipal competente responsable de la intervención.",
     )
 
-    @field_validator("resumen_10_palabras")
-    @classmethod
-    def validar_maximo_10_palabras(cls, value: str) -> str:
-        """Valida que el resumen no exceda el límite de 10 palabras."""
-        palabras = value.strip().split()
-        if len(palabras) > 10:
-            raise ValueError(
-                f"El resumen excede el límite permitido: contiene {len(palabras)} palabras (máximo 10)."
-            )
-        return value
+
+@field_validator(
+    "resumen_10_palabras", mode="before"
+)  # aplicar recorte defensivo (sanitización/truncado automático)
+@classmethod
+def validar_maximo_10_palabras(cls, value: str) -> str:
+    """Asegura que el resumen no exceda el límite de 10 palabras recortando si es necesario."""
+    if not isinstance(value, str):
+        return str(value)
+
+    palabras = value.strip().split()
+    if len(palabras) > 10:
+        # Recorta a las primeras 10 palabras de forma segura
+        return " ".join(palabras[:10])
+    return value.strip()
 
 
 # --- 3. Esquemas de Petición (API Request) ---

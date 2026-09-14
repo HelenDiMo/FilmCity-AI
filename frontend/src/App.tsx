@@ -68,10 +68,10 @@ export default function App() {
             <div>
               <div className="flex items-center gap-2">
                 <h1 className="text-base font-bold tracking-tight text-white uppercase">
-                  Madrid Film Office
+                  FilmCity IA
                 </h1>
                 <span className="text-red-400 font-semibold text-xs px-2 py-0.5 rounded bg-red-500/10 border border-red-500/20">
-                  FilmCity IA
+                  Madrid Film Office
                 </span>
               </div>
               <p className="text-xs text-slate-400">
