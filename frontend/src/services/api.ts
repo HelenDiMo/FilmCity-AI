@@ -5,7 +5,7 @@ import type {
   FilmingSet,
 } from "../types/triage";
 
-const API_BASE_URL = "http://localhost:8000/api/v1";
+const API_BASE_URL = "https://filmcity-ai.onrender.com";
 
 export async function processTriage(
   payload: TriageRequestPayload,
