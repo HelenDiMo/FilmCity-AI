@@ -5,7 +5,8 @@ import type {
   FilmingSet,
 } from "../types/triage";
 
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8000';
+// Añadimos /api/v1 por defecto para coincidir con la configuración de FastAPI
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8000/api/v1';
 
 const OLLAMA_OFFLINE_NOTICE = 
   "ℹ️ Modo On-Premise: El motor local Ollama está diseñado para ejecuciones en red local bajo soberanía de datos (RGPD). En esta demo cloud pública, por favor selecciona 'Groq Cloud'.";
