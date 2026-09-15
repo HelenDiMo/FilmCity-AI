@@ -23,14 +23,17 @@ export async function processTriage(
 
   if (!response.ok) {
     const errorData = await response.json().catch(() => null);
-    const rawDetail = errorData?.detail || `Error en la solicitud (${response.status})`;
+    const rawDetail =
+      (typeof errorData?.detail === "string" ? errorData.detail : "") ||
+      `Error en la solicitud (${response.status})`;
 
-    // Interceptar error de conexión de Ollama
-    if (
-      payload.proveedor === "local_ollama" ||
+    // Interceptar si el fallo viene de la desconexión de Ollama en la nube
+    const isOllamaError =
       rawDetail.toLowerCase().includes("ollama") ||
-      rawDetail.includes("111")
-    ) {
+      rawDetail.includes("111") ||
+      rawDetail.toLowerCase().includes("connection refused");
+
+    if (isOllamaError) {
       throw new Error(OLLAMA_OFFLINE_NOTICE);
     }
 
@@ -53,12 +56,16 @@ export async function compareTriage(
 
   if (!response.ok) {
     const errorData = await response.json().catch(() => null);
-    const rawDetail = errorData?.detail || `Error en comparativa (${response.status})`;
+    const rawDetail =
+      (typeof errorData?.detail === "string" ? errorData.detail : "") ||
+      `Error en comparativa (${response.status})`;
 
-    if (
+    const isOllamaError =
       rawDetail.toLowerCase().includes("ollama") ||
-      rawDetail.includes("111")
-    ) {
+      rawDetail.includes("111") ||
+      rawDetail.toLowerCase().includes("connection refused");
+
+    if (isOllamaError) {
       throw new Error(
         "ℹ️ Comparativa parcial: El motor Ollama no está disponible en la versión cloud pública. Selecciona 'Groq Cloud' para el análisis individual."
       );
