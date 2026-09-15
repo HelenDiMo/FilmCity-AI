@@ -1,41 +1,61 @@
-import { useState } from 'react';
-import type { FilmingSet } from '../types/triage';
-import { 
-  Building2, 
-  MapPin, 
-  AlertCircle, 
-  Send, 
-  CheckCircle2, 
-  Volume2, 
-  Truck, 
-  Users, 
+import { useState } from "react";
+import type { FilmingSet } from "../types/triage";
+import {
+  Building2,
+  MapPin,
+  AlertCircle,
+  Send,
+  CheckCircle2,
+  Volume2,
+  Truck,
+  Users,
   FileQuestion,
   ArrowRight,
-  Loader2
-} from 'lucide-react';
+  Loader2,
+} from "lucide-react";
 
 interface CitizenPortalProps {
   filmingSets: FilmingSet[];
   onSubmitComplaint: (
-    payload: string | { texto: string; ubicacion?: string; motivo?: string }
+    payload: string | { texto: string; ubicacion?: string; motivo?: string },
   ) => Promise<string> | Promise<void>;
   isLoading: boolean;
 }
 
 const COMMON_ISSUES = [
-  { icon: Truck, label: 'Ocupación o Bloqueo', desc: 'Camiones, vados o salidas bloqueadas' },
-  { icon: Volume2, label: 'Ruidos / Horarios', desc: 'Generadores nocturnos o luces molestas' },
-  { icon: Users, label: 'Aglomeración', desc: 'Paso peatonal colapsado por rodaje o fans' },
-  { icon: FileQuestion, label: 'Consulta de Permiso', desc: 'Verificar si la grabación está autorizada' },
+  {
+    icon: Truck,
+    label: "Ocupación o Bloqueo",
+    desc: "Camiones, vados o salidas bloqueadas",
+  },
+  {
+    icon: Volume2,
+    label: "Ruidos / Horarios",
+    desc: "Generadores nocturnos o luces molestas",
+  },
+  {
+    icon: Users,
+    label: "Aglomeración",
+    desc: "Paso peatonal colapsado por rodaje o fans",
+  },
+  {
+    icon: FileQuestion,
+    label: "Consulta de Permiso",
+    desc: "Verificar si la grabación está autorizada",
+  },
 ];
 
-export function CitizenPortal({ filmingSets, onSubmitComplaint, isLoading }: CitizenPortalProps) {
-  const [selectedSet, setSelectedSet] = useState<string>('');
-  const [issueType, setIssueType] = useState<string>('Ocupación o Bloqueo');
-  const [locationDetail, setLocationDetail] = useState<string>('');
-  const [description, setDescription] = useState<string>('');
+export function CitizenPortal({
+  filmingSets,
+  onSubmitComplaint,
+  isLoading,
+}: CitizenPortalProps) {
+  const [selectedSet, setSelectedSet] = useState<string>("");
+  const [issueType, setIssueType] = useState<string>("Ocupación o Bloqueo");
+  const [locationDetail, setLocationDetail] = useState<string>("");
+  const [description, setDescription] = useState<string>("");
   const [submittedId, setSubmittedId] = useState<string | null>(null);
-  
+
   // Estados de geolocalización
   const [isLocating, setIsLocating] = useState<boolean>(false);
   const [geoSuccess, setGeoSuccess] = useState<boolean>(false);
@@ -64,31 +84,38 @@ export function CitizenPortal({ filmingSets, onSubmitComplaint, isLoading }: Cit
         try {
           // Geocodificación inversa con OpenStreetMap Nominatim
           const res = await fetch(
-            `https://nominatim.openstreetmap.org/reverse?format=json&lat=${latitude}&lon=${longitude}`
+            `https://nominatim.openstreetmap.org/reverse?format=json&lat=${latitude}&lon=${longitude}`,
           );
           const data = await res.json();
-          const road = data.address?.road || data.address?.pedestrian || "Calle detectada";
+          const road =
+            data.address?.road || data.address?.pedestrian || "Calle detectada";
           const district =
             data.address?.suburb ||
             data.address?.city_district ||
             data.address?.quarter ||
             "Madrid";
 
-          setLocationDetail(`${road}, ${district} (GPS: ${latitude.toFixed(4)}, ${longitude.toFixed(4)})`);
+          setLocationDetail(
+            `${road}, ${district} (GPS: ${latitude.toFixed(4)}, ${longitude.toFixed(4)})`,
+          );
           setGeoSuccess(true);
         } catch {
           // Fallback con coordenadas puras
-          setLocationDetail(`Coordenadas GPS: ${latitude.toFixed(4)}, ${longitude.toFixed(4)}`);
+          setLocationDetail(
+            `Coordenadas GPS: ${latitude.toFixed(4)}, ${longitude.toFixed(4)}`,
+          );
           setGeoSuccess(true);
         } finally {
           setIsLocating(false);
         }
       },
-      (error) => {
-        alert("Por favor, permite el acceso a tu ubicación para situar el rodaje.");
+      () => {
+        alert(
+          "Por favor, permite el acceso a tu ubicación para situar el rodaje.",
+        );
         setIsLocating(false);
       },
-      { enableHighAccuracy: true, timeout: 8000 }
+      { enableHighAccuracy: true, timeout: 8000 },
     );
   };
 
@@ -97,8 +124,8 @@ export function CitizenPortal({ filmingSets, onSubmitComplaint, isLoading }: Cit
     if (!description.trim() || isLoading) return;
 
     // Construimos un texto contextualizado para que el backend lo procese
-    const fullText = `[Tipo: ${issueType}] [Ubicación: ${locationDetail || 'No especificada'}] ${description}`;
-    
+    const fullText = `[Tipo: ${issueType}] [Ubicación: ${locationDetail || "No especificada"}] ${description}`;
+
     await onSubmitComplaint(fullText);
 
     // Generamos un código de seguimiento verosímil
@@ -108,9 +135,9 @@ export function CitizenPortal({ filmingSets, onSubmitComplaint, isLoading }: Cit
 
   const handleReset = () => {
     setSubmittedId(null);
-    setDescription('');
-    setLocationDetail('');
-    setSelectedSet('');
+    setDescription("");
+    setLocationDetail("");
+    setSelectedSet("");
     setGeoSuccess(false);
   };
 
@@ -130,7 +157,8 @@ export function CitizenPortal({ filmingSets, onSubmitComplaint, isLoading }: Cit
             Incidencia Recibida Correctamente
           </h2>
           <p className="text-sm text-zinc-600 max-w-md mx-auto">
-            Tu reporte ha sido registrado en el sistema municipal y clasificado automáticamente por FilmCity AI para su atención prioritaria.
+            Tu reporte ha sido registrado en el sistema municipal y clasificado
+            automáticamente por FilmCity AI para su atención prioritaria.
           </p>
         </div>
 
@@ -165,7 +193,6 @@ export function CitizenPortal({ filmingSets, onSubmitComplaint, isLoading }: Cit
 
   return (
     <div className="bg-white border border-zinc-200 rounded-2xl p-6 md:p-8 max-w-3xl mx-auto shadow-sm space-y-6">
-      
       {/* Cabecera del Portal */}
       <div className="border-b border-zinc-200 pb-5">
         <div className="flex items-center gap-2 text-zinc-900 mb-1">
@@ -175,12 +202,12 @@ export function CitizenPortal({ filmingSets, onSubmitComplaint, isLoading }: Cit
           </h2>
         </div>
         <p className="text-xs text-zinc-500">
-          Canal directo de atención vecinal y comercial de Madrid Film Office para resolver incidencias asociadas a grabaciones en la vía pública.
+          Canal directo de atención vecinal y comercial de Madrid Film Office
+          para resolver incidencias asociadas a grabaciones en la vía pública.
         </p>
       </div>
 
       <form onSubmit={handleSubmit} className="space-y-6">
-        
         {/* Paso 1: Tipo de Incidencia */}
         <div>
           <label className="text-xs font-bold uppercase tracking-wider text-zinc-700 block mb-3">
@@ -197,16 +224,22 @@ export function CitizenPortal({ filmingSets, onSubmitComplaint, isLoading }: Cit
                   onClick={() => setIssueType(issue.label)}
                   className={`p-3.5 rounded-xl border text-left transition-all flex items-start gap-3 cursor-pointer ${
                     isSelected
-                      ? 'bg-yellow-50 border-yellow-400 ring-1 ring-yellow-400 text-zinc-900'
-                      : 'bg-zinc-50 border-zinc-200 hover:border-zinc-300 text-zinc-600'
+                      ? "bg-yellow-50 border-yellow-400 ring-1 ring-yellow-400 text-zinc-900"
+                      : "bg-zinc-50 border-zinc-200 hover:border-zinc-300 text-zinc-600"
                   }`}
                 >
-                  <div className={`p-2 rounded-lg ${isSelected ? 'bg-yellow-300 text-zinc-900' : 'bg-zinc-200 text-zinc-700'}`}>
+                  <div
+                    className={`p-2 rounded-lg ${isSelected ? "bg-yellow-300 text-zinc-900" : "bg-zinc-200 text-zinc-700"}`}
+                  >
                     <Icon className="w-4 h-4" />
                   </div>
                   <div>
-                    <strong className="block text-xs font-bold text-zinc-900">{issue.label}</strong>
-                    <span className="text-[11px] text-zinc-500 line-clamp-1">{issue.desc}</span>
+                    <strong className="block text-xs font-bold text-zinc-900">
+                      {issue.label}
+                    </strong>
+                    <span className="text-[11px] text-zinc-500 line-clamp-1">
+                      {issue.desc}
+                    </span>
                   </div>
                 </button>
               );
@@ -246,7 +279,7 @@ export function CitizenPortal({ filmingSets, onSubmitComplaint, isLoading }: Cit
               )}
             </button>
           </div>
-          
+
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
             <div>
               <label className="text-xs text-zinc-500 block mb-1">
@@ -257,7 +290,9 @@ export function CitizenPortal({ filmingSets, onSubmitComplaint, isLoading }: Cit
                 onChange={(e) => handleSetChange(e.target.value)}
                 className="w-full bg-zinc-50 border border-zinc-200 rounded-xl px-3 py-2 text-xs text-zinc-900 focus:outline-none focus:border-yellow-400 focus:ring-1 focus:ring-yellow-400"
               >
-                <option value="">-- Seleccionar set autorizado (Opcional) --</option>
+                <option value="">
+                  -- Seleccionar set autorizado (Opcional) --
+                </option>
                 {filmingSets.map((set) => (
                   <option key={set.id} value={set.id}>
                     {set.ubicacion} • {set.titulo_produccion}
@@ -289,7 +324,10 @@ export function CitizenPortal({ filmingSets, onSubmitComplaint, isLoading }: Cit
 
         {/* Paso 3: Detalle de la queja o consulta */}
         <div>
-          <label htmlFor="citizen-desc" className="text-xs font-bold uppercase tracking-wider text-zinc-700 block mb-1.5">
+          <label
+            htmlFor="citizen-desc"
+            className="text-xs font-bold uppercase tracking-wider text-zinc-700 block mb-1.5"
+          >
             3. Explica lo sucedido
           </label>
           <textarea
@@ -307,7 +345,8 @@ export function CitizenPortal({ filmingSets, onSubmitComplaint, isLoading }: Cit
         <div className="pt-2 flex flex-col sm:flex-row items-center justify-between gap-4 border-t border-zinc-200">
           <span className="text-[11px] text-zinc-500 flex items-center gap-1.5">
             <AlertCircle className="w-3.5 h-3.5 text-zinc-400 shrink-0" />
-            Tratamiento seguro conforme a la normativa de Mediación Urbana de Madrid.
+            Tratamiento seguro conforme a la normativa de Mediación Urbana de
+            Madrid.
           </span>
 
           <button
@@ -328,7 +367,6 @@ export function CitizenPortal({ filmingSets, onSubmitComplaint, isLoading }: Cit
             )}
           </button>
         </div>
-
       </form>
     </div>
   );
