@@ -70,6 +70,7 @@ export default function App() {
     useState<UserRole>("operator");
 
   const [adminTab, setAdminTab] = useState<AdminTabMode>("single");
+  const [provider, setProvider] = useState<LLMProviderType>("cloud_groq");
   const [isLoading, setIsLoading] = useState(false);
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
 
@@ -203,6 +204,16 @@ export default function App() {
   ) => {
     setIsLoading(true);
     setErrorMsg(null);
+
+    // Limpiamos el resultado anterior ANTES de lanzar la nueva petición.
+    // Si no se hace, un fallo (p. ej. Ollama no disponible en el demo cloud)
+    // deja visible en pantalla el resultado previo de Groq, dando la falsa
+    // impresión de que el triaje se ejecutó de nuevo con Groq.
+    if (adminTab === "single") {
+      setSingleResult(null);
+    } else {
+      setCompareResult(null);
+    }
 
     try {
       if (adminTab === "single") {
@@ -422,14 +433,13 @@ export default function App() {
                   <Layers className="w-4 h-4 text-zinc-700" />
                   <span>Auditar Quejas Reales de la Cola Ciudadana:</span>
                 </div>
-
-                <div className="flex flex-wrap gap-2 pt-1">
+                <div className="flex flex-wrap gap-2">
                   {tickets.map((t) => (
                     <button
                       key={t.id}
                       type="button"
                       onClick={() =>
-                        handleTriageSubmit(t.reporte_original, "cloud_groq")
+                        handleTriageSubmit(t.reporte_original, provider)
                       }
                       className="px-2.5 py-1.5 rounded-lg bg-zinc-100 hover:bg-yellow-300 hover:text-zinc-900 border border-zinc-200 text-zinc-700 transition-colors text-left"
                     >
@@ -440,7 +450,12 @@ export default function App() {
               </div>
             )}
 
-            <TriageForm onSubmit={handleTriageSubmit} isLoading={isLoading} />
+            <TriageForm
+              onSubmit={handleTriageSubmit}
+              isLoading={isLoading}
+              provider={provider}
+              onProviderChange={setProvider}
+            />
 
             {adminTab === "single" && singleResult && !isLoading && (
               <div className="space-y-4">

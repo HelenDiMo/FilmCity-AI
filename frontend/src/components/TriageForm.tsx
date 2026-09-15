@@ -13,6 +13,8 @@ import {
 interface TriageFormProps {
   onSubmit: (texto: string, provider: LLMProviderType) => void;
   isLoading: boolean;
+  provider: LLMProviderType;
+  onProviderChange: (provider: LLMProviderType) => void;
 }
 
 const PRESET_CASES = [
@@ -63,11 +65,15 @@ function OllamaIcon({ className = "w-3.5 h-3.5" }: { className?: string }) {
     />
   );
 }
-export function TriageForm({ onSubmit, isLoading }: TriageFormProps) {
+export function TriageForm({
+  onSubmit,
+  isLoading,
+  provider,
+  onProviderChange,
+}: TriageFormProps) {
   const [texto, setTexto] = useState("");
-  const [provider, setProvider] = useState<LLMProviderType>("cloud_groq");
 
-  const handleSubmit = (e: React.SyntheticEvent<HTMLFormElement>) => {
+  const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (!texto.trim() || isLoading) return;
     onSubmit(texto, provider);
@@ -94,7 +100,7 @@ export function TriageForm({ onSubmit, isLoading }: TriageFormProps) {
         <div className="flex items-center bg-neutral-900 p-1 rounded-lg border border-slate-800 text-xs self-start sm:self-auto gap-1">
           <button
             type="button"
-            onClick={() => setProvider("cloud_groq")}
+            onClick={() => onProviderChange("cloud_groq")}
             className={`flex items-center gap-2 px-3 py-1.5 rounded-md font-medium transition-all ${
               provider === "cloud_groq"
                 ? "bg-orange-600 text-white shadow"
@@ -106,7 +112,7 @@ export function TriageForm({ onSubmit, isLoading }: TriageFormProps) {
           </button>
           <button
             type="button"
-            onClick={() => setProvider("local_ollama")}
+            onClick={() => onProviderChange("local_ollama")}
             className={`flex items-center gap-2 px-3 py-1.5 rounded-md font-medium transition-all ${
               provider === "local_ollama"
                 ? "bg-white text-black shadow"
