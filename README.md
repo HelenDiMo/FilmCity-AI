@@ -97,7 +97,7 @@ FilmCity-AI/
 ### 1. Configuración del Backend
 
 ```bash
-cd backend
+# Desde la raíz del repositorio
 
 # Crear y activar entorno virtual
 python -m venv venv
@@ -111,7 +111,7 @@ pip install -r requirements.txt
 cp .env.example .env
 ```
 
-Variables de entorno requeridas en `backend/.env`:
+Variables de entorno requeridas en `.env` (raíz del repositorio):
 
 ```
 GROQ_API_KEY=gsk_tu_clave_de_groq_aqui
