@@ -1,0 +1,31 @@
+services:
+  # 1. Servicio de Ollama (Motor local de IA)
+  ollama:
+    image: ollama/ollama:latest
+    container_name: filmcity-ollama
+    restart: unless-stopped
+    ports:
+      - "11434:11434"
+    volumes:
+      - ollama_models:/root/.ollama
+
+  # 2. Servicio de Backend (FastAPI)
+  backend:
+    build:
+      context: .
+      dockerfile: backend/Dockerfile
+    container_name: filmcity-backend
+    restart: unless-stopped
+    ports:
+      - "8000:8000"
+    environment:
+      - OLLAMA_BASE_URL=http://ollama:11434
+      - OLLAMA_MODEL=llama3.2
+      - GROQ_API_KEY=${GROQ_API_KEY}
+      - GROQ_MODEL=${GROQ_MODEL:-openai/gpt-oss-120b}
+    depends_on:
+      - ollama
+
+volumes:
+  ollama_models:
+    name: filmcity_ollama_data
