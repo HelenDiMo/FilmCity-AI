@@ -84,7 +84,7 @@ export default function App() {
     fetchActiveFilmingSets()
       .then((data) => setFilmingSets(data))
       .catch((err) =>
-        console.error("No se pudieron cargar los sets de rodaje:", err)
+        console.error("No se pudieron cargar los sets de rodaje:", err),
       );
   }, []);
 
@@ -106,7 +106,7 @@ export default function App() {
 
   // Manejo de queja ciudadana con tipado flexible
   const handleCitizenComplaint = async (
-    payload: string | { texto: string; ubicacion?: string; motivo?: string }
+    payload: string | { texto: string; ubicacion?: string; motivo?: string },
   ): Promise<string> => {
     setIsLoading(true);
     setErrorMsg(null);
@@ -172,7 +172,7 @@ export default function App() {
       setTickets((prev) => [fallbackTicket, ...prev]);
 
       setErrorMsg(
-        `Aviso: Queja registrada en cola, pero falló el triaje en tiempo real: ${errorText}`
+        `Aviso: Queja registrada en cola, pero falló el triaje en tiempo real: ${errorText}`,
       );
       return generatedId;
     } finally {
@@ -182,7 +182,7 @@ export default function App() {
 
   const handleApproveTicket = (id: string) => {
     setTickets((prev) =>
-      prev.map((t) => (t.id === id ? { ...t, estado: "Validado" } : t))
+      prev.map((t) => (t.id === id ? { ...t, estado: "Validado" } : t)),
     );
   };
 
@@ -191,15 +191,15 @@ export default function App() {
       prev.map((t) =>
         t.id === id
           ? { ...t, departamento_propuesto: newDept, estado: "Reasignado" }
-          : t
-      )
+          : t,
+      ),
     );
   };
 
   // Manejo de peticiones de triaje técnico para Admin
   const handleTriageSubmit = async (
     texto: string,
-    provider: LLMProviderType
+    provider: LLMProviderType,
   ) => {
     setIsLoading(true);
     setErrorMsg(null);
@@ -229,7 +229,6 @@ export default function App() {
 
   return (
     <div className="min-h-screen bg-zinc-50 text-zinc-900 flex flex-col font-sans selection:bg-yellow-300 selection:text-zinc-900">
-      
       {/* Topbar Institucional */}
       <header className="border-b border-zinc-200 bg-white/95 backdrop-blur-md px-6 py-4 sticky top-0 z-40 shadow-sm">
         <div className="max-w-6xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
@@ -383,7 +382,8 @@ export default function App() {
                   Consola de Inferencia y Auditoría LLM
                 </h2>
                 <p className="text-xs text-zinc-500">
-                  Métricas de latencia, consumo de tokens y trazas de razonamiento ReAct.
+                  Métricas de latencia, consumo de tokens y trazas de
+                  razonamiento ReAct.
                 </p>
               </div>
 
@@ -422,7 +422,8 @@ export default function App() {
                   <Layers className="w-4 h-4 text-zinc-700" />
                   <span>Auditar Quejas Reales de la Cola Ciudadana:</span>
                 </div>
-                <div className="flex flex-wrap gap-2">
+
+                <div className="flex flex-wrap gap-2 pt-1">
                   {tickets.map((t) => (
                     <button
                       key={t.id}

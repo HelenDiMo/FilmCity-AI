@@ -67,7 +67,7 @@ export function TriageForm({ onSubmit, isLoading }: TriageFormProps) {
   const [texto, setTexto] = useState("");
   const [provider, setProvider] = useState<LLMProviderType>("cloud_groq");
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = (e: React.SyntheticEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (!texto.trim() || isLoading) return;
     onSubmit(texto, provider);

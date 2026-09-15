@@ -11,8 +11,11 @@ class TriageService:
     def run_triage(
         self, text: str, provider: LLMProviderType = LLMProviderType.CLOUD_GROQ
     ) -> TriageResponse:
-        """Ejecuta el triaje utilizando el proveedor indicado."""
+        print(
+            f"DEBUG BACKEND -> PROVEEDOR RECIBIDO: {provider} (tipo: {type(provider)})"
+        )
         llm = get_llm_provider(provider)
+        print(f"DEBUG BACKEND -> LLM INSTANCIADO: {llm.get_provider_name()}")
         return llm.run_triage(text)
 
     def compare_providers(self, text: str) -> CompareTriageResponse:

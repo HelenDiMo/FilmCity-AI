@@ -176,9 +176,22 @@ class GroqProvider(BaseLLMProvider):
         return raw_content, in_tokens, out_tokens, latency_ms, cost_usd
 
 
-def get_llm_provider(provider_type: LLMProviderType) -> BaseLLMProvider:
-    if provider_type == LLMProviderType.CLOUD_GROQ:
+def get_llm_provider(provider_type: LLMProviderType | str) -> BaseLLMProvider:
+    # 1. Obtener el valor limpio en texto
+    if isinstance(provider_type, LLMProviderType):
+        val = provider_type.value
+    else:
+        val = str(provider_type)
+
+    val = val.lower()
+
+    # 2. Comprobar Groq primero
+    if "groq" in val:
         return GroqProvider()
-    elif provider_type == LLMProviderType.LOCAL_OLLAMA:
+
+    # 3. Comprobar Ollama
+    if "ollama" in val:
         return OllamaProvider()
-    raise ValueError(f"Proveedor no soportado: {provider_type}")
+
+    # Fallback por defecto si no coincide
+    return GroqProvider()
