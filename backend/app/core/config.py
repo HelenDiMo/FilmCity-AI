@@ -1,6 +1,13 @@
 from functools import lru_cache
+from pathlib import Path
 from typing import Optional
 from pydantic_settings import BaseSettings, SettingsConfigDict
+
+# Ruta absoluta al .env en la raíz del repositorio, independiente del directorio
+# de trabajo desde el que se ejecute Python (run.py, pytest, scripts/, uvicorn...).
+# config.py vive en backend/app/core/, así que subimos 3 niveles hasta la raíz.
+PROJECT_ROOT = Path(__file__).resolve().parent.parent.parent.parent
+ENV_FILE_PATH = PROJECT_ROOT / ".env"
 
 
 class Settings(BaseSettings):
@@ -27,7 +34,7 @@ class Settings(BaseSettings):
 
     # Configuración de carga de archivo .env
     model_config = SettingsConfigDict(
-        env_file=".env",
+        env_file=ENV_FILE_PATH,
         env_file_encoding="utf-8",
         extra="ignore",
     )

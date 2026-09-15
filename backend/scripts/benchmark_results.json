@@ -1,0 +1,357 @@
+{
+  "fecha": "2026-09-15 21:58:22",
+  "n_casos": 6,
+  "repeticiones_por_caso": 3,
+  "groq": {
+    "resumen": {
+      "ejecuciones_exitosas": 18,
+      "latencia_media_ms": 8596.5,
+      "latencia_min_ms": 1303.5,
+      "latencia_max_ms": 17823.1,
+      "coste_medio_usd": 0.000114,
+      "coste_total_usd": 0.002054,
+      "tokens_entrada_medios": 1360.2,
+      "tokens_salida_medios": 577
+    },
+    "detalle": [
+      {
+        "caso": 1,
+        "repeticion": 1,
+        "latencia_ms_interna": 1303.5,
+        "latencia_ms_e2e": 1489.65,
+        "tokens_entrada": 1364,
+        "tokens_salida": 403,
+        "coste_estimado_usd": 0.0001
+      },
+      {
+        "caso": 1,
+        "repeticion": 2,
+        "latencia_ms_interna": 1664.86,
+        "latencia_ms_e2e": 1830.56,
+        "tokens_entrada": 1364,
+        "tokens_salida": 576,
+        "coste_estimado_usd": 0.000114
+      },
+      {
+        "caso": 1,
+        "repeticion": 3,
+        "latencia_ms_interna": 1368.72,
+        "latencia_ms_e2e": 1536.8,
+        "tokens_entrada": 1364,
+        "tokens_salida": 418,
+        "coste_estimado_usd": 0.000102
+      },
+      {
+        "caso": 2,
+        "repeticion": 1,
+        "latencia_ms_interna": 2234.31,
+        "latencia_ms_e2e": 2409.87,
+        "tokens_entrada": 1368,
+        "tokens_salida": 873,
+        "coste_estimado_usd": 0.000138
+      },
+      {
+        "caso": 2,
+        "repeticion": 2,
+        "latencia_ms_interna": 10134.03,
+        "latencia_ms_e2e": 10300.61,
+        "tokens_entrada": 1368,
+        "tokens_salida": 768,
+        "coste_estimado_usd": 0.00013
+      },
+      {
+        "caso": 2,
+        "repeticion": 3,
+        "latencia_ms_interna": 16403.98,
+        "latencia_ms_e2e": 16577.6,
+        "tokens_entrada": 1368,
+        "tokens_salida": 726,
+        "coste_estimado_usd": 0.000126
+      },
+      {
+        "caso": 3,
+        "repeticion": 1,
+        "latencia_ms_interna": 9487.64,
+        "latencia_ms_e2e": 9679.55,
+        "tokens_entrada": 1360,
+        "tokens_salida": 364,
+        "coste_estimado_usd": 9.7e-05
+      },
+      {
+        "caso": 3,
+        "repeticion": 2,
+        "latencia_ms_interna": 17823.1,
+        "latencia_ms_e2e": 18009.25,
+        "tokens_entrada": 1360,
+        "tokens_salida": 622,
+        "coste_estimado_usd": 0.000118
+      },
+      {
+        "caso": 3,
+        "repeticion": 3,
+        "latencia_ms_interna": 11783.99,
+        "latencia_ms_e2e": 12325.93,
+        "tokens_entrada": 1360,
+        "tokens_salida": 486,
+        "coste_estimado_usd": 0.000107
+      },
+      {
+        "caso": 4,
+        "repeticion": 1,
+        "latencia_ms_interna": 6914.99,
+        "latencia_ms_e2e": 7086.81,
+        "tokens_entrada": 1356,
+        "tokens_salida": 769,
+        "coste_estimado_usd": 0.000129
+      },
+      {
+        "caso": 4,
+        "repeticion": 2,
+        "latencia_ms_interna": 15554.28,
+        "latencia_ms_e2e": 15727.57,
+        "tokens_entrada": 1356,
+        "tokens_salida": 513,
+        "coste_estimado_usd": 0.000109
+      },
+      {
+        "caso": 4,
+        "repeticion": 3,
+        "latencia_ms_interna": 13823.72,
+        "latencia_ms_e2e": 13994.35,
+        "tokens_entrada": 1356,
+        "tokens_salida": 707,
+        "coste_estimado_usd": 0.000124
+      },
+      {
+        "caso": 5,
+        "repeticion": 1,
+        "latencia_ms_interna": 5258.33,
+        "latencia_ms_e2e": 5806.37,
+        "tokens_entrada": 1359,
+        "tokens_salida": 423,
+        "coste_estimado_usd": 0.000102
+      },
+      {
+        "caso": 5,
+        "repeticion": 2,
+        "latencia_ms_interna": 13428.55,
+        "latencia_ms_e2e": 13600.62,
+        "tokens_entrada": 1359,
+        "tokens_salida": 453,
+        "coste_estimado_usd": 0.000104
+      },
+      {
+        "caso": 5,
+        "repeticion": 3,
+        "latencia_ms_interna": 3946.3,
+        "latencia_ms_e2e": 4109.75,
+        "tokens_entrada": 1359,
+        "tokens_salida": 656,
+        "coste_estimado_usd": 0.00012
+      },
+      {
+        "caso": 6,
+        "repeticion": 1,
+        "latencia_ms_interna": 4787.06,
+        "latencia_ms_e2e": 4958.1,
+        "tokens_entrada": 1354,
+        "tokens_salida": 449,
+        "coste_estimado_usd": 0.000104
+      },
+      {
+        "caso": 6,
+        "repeticion": 2,
+        "latencia_ms_interna": 2783.33,
+        "latencia_ms_e2e": 2948.24,
+        "tokens_entrada": 1354,
+        "tokens_salida": 563,
+        "coste_estimado_usd": 0.000113
+      },
+      {
+        "caso": 6,
+        "repeticion": 3,
+        "latencia_ms_interna": 16036.23,
+        "latencia_ms_e2e": 16206.6,
+        "tokens_entrada": 1354,
+        "tokens_salida": 617,
+        "coste_estimado_usd": 0.000117
+      }
+    ]
+  },
+  "ollama": {
+    "resumen": {
+      "ejecuciones_exitosas": 18,
+      "latencia_media_ms": 8029.96,
+      "latencia_min_ms": 7292.05,
+      "latencia_max_ms": 14199.96,
+      "coste_medio_usd": 0.0,
+      "coste_total_usd": 0.0,
+      "tokens_entrada_medios": 1444.8,
+      "tokens_salida_medios": 242.8
+    },
+    "detalle": [
+      {
+        "caso": 1,
+        "repeticion": 1,
+        "latencia_ms_interna": 14199.96,
+        "latencia_ms_e2e": 14200.73,
+        "tokens_entrada": 1448,
+        "tokens_salida": 257,
+        "coste_estimado_usd": 0.0
+      },
+      {
+        "caso": 1,
+        "repeticion": 2,
+        "latencia_ms_interna": 7818.74,
+        "latencia_ms_e2e": 7819.16,
+        "tokens_entrada": 1448,
+        "tokens_salida": 253,
+        "coste_estimado_usd": 0.0
+      },
+      {
+        "caso": 1,
+        "repeticion": 3,
+        "latencia_ms_interna": 8018.3,
+        "latencia_ms_e2e": 8018.72,
+        "tokens_entrada": 1448,
+        "tokens_salida": 249,
+        "coste_estimado_usd": 0.0
+      },
+      {
+        "caso": 2,
+        "repeticion": 1,
+        "latencia_ms_interna": 8045.33,
+        "latencia_ms_e2e": 8045.58,
+        "tokens_entrada": 1458,
+        "tokens_salida": 262,
+        "coste_estimado_usd": 0.0
+      },
+      {
+        "caso": 2,
+        "repeticion": 2,
+        "latencia_ms_interna": 7962.29,
+        "latencia_ms_e2e": 7962.67,
+        "tokens_entrada": 1458,
+        "tokens_salida": 257,
+        "coste_estimado_usd": 0.0
+      },
+      {
+        "caso": 2,
+        "repeticion": 3,
+        "latencia_ms_interna": 8005.54,
+        "latencia_ms_e2e": 8005.85,
+        "tokens_entrada": 1458,
+        "tokens_salida": 259,
+        "coste_estimado_usd": 0.0
+      },
+      {
+        "caso": 3,
+        "repeticion": 1,
+        "latencia_ms_interna": 7708.35,
+        "latencia_ms_e2e": 7708.65,
+        "tokens_entrada": 1443,
+        "tokens_salida": 245,
+        "coste_estimado_usd": 0.0
+      },
+      {
+        "caso": 3,
+        "repeticion": 2,
+        "latencia_ms_interna": 7298.3,
+        "latencia_ms_e2e": 7298.59,
+        "tokens_entrada": 1443,
+        "tokens_salida": 227,
+        "coste_estimado_usd": 0.0
+      },
+      {
+        "caso": 3,
+        "repeticion": 3,
+        "latencia_ms_interna": 7698.56,
+        "latencia_ms_e2e": 7698.78,
+        "tokens_entrada": 1443,
+        "tokens_salida": 243,
+        "coste_estimado_usd": 0.0
+      },
+      {
+        "caso": 4,
+        "repeticion": 1,
+        "latencia_ms_interna": 7818.69,
+        "latencia_ms_e2e": 7819.21,
+        "tokens_entrada": 1441,
+        "tokens_salida": 250,
+        "coste_estimado_usd": 0.0
+      },
+      {
+        "caso": 4,
+        "repeticion": 2,
+        "latencia_ms_interna": 7619.56,
+        "latencia_ms_e2e": 7619.96,
+        "tokens_entrada": 1441,
+        "tokens_salida": 241,
+        "coste_estimado_usd": 0.0
+      },
+      {
+        "caso": 4,
+        "repeticion": 3,
+        "latencia_ms_interna": 7524.97,
+        "latencia_ms_e2e": 7525.21,
+        "tokens_entrada": 1441,
+        "tokens_salida": 236,
+        "coste_estimado_usd": 0.0
+      },
+      {
+        "caso": 5,
+        "repeticion": 1,
+        "latencia_ms_interna": 7618.4,
+        "latencia_ms_e2e": 7618.7,
+        "tokens_entrada": 1441,
+        "tokens_salida": 242,
+        "coste_estimado_usd": 0.0
+      },
+      {
+        "caso": 5,
+        "repeticion": 2,
+        "latencia_ms_interna": 7309.76,
+        "latencia_ms_e2e": 7310.28,
+        "tokens_entrada": 1441,
+        "tokens_salida": 225,
+        "coste_estimado_usd": 0.0
+      },
+      {
+        "caso": 5,
+        "repeticion": 3,
+        "latencia_ms_interna": 7380.95,
+        "latencia_ms_e2e": 7381.42,
+        "tokens_entrada": 1441,
+        "tokens_salida": 230,
+        "coste_estimado_usd": 0.0
+      },
+      {
+        "caso": 6,
+        "repeticion": 1,
+        "latencia_ms_interna": 7292.05,
+        "latencia_ms_e2e": 7292.48,
+        "tokens_entrada": 1438,
+        "tokens_salida": 224,
+        "coste_estimado_usd": 0.0
+      },
+      {
+        "caso": 6,
+        "repeticion": 2,
+        "latencia_ms_interna": 7548.99,
+        "latencia_ms_e2e": 7549.45,
+        "tokens_entrada": 1438,
+        "tokens_salida": 235,
+        "coste_estimado_usd": 0.0
+      },
+      {
+        "caso": 6,
+        "repeticion": 3,
+        "latencia_ms_interna": 7670.55,
+        "latencia_ms_e2e": 7670.89,
+        "tokens_entrada": 1438,
+        "tokens_salida": 236,
+        "coste_estimado_usd": 0.0
+      }
+    ]
+  }
+}
