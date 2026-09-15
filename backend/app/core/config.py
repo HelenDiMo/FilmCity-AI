@@ -18,7 +18,7 @@ class Settings(BaseSettings):
 
     # Proveedor Cloud (Groq)
     GROQ_API_KEY: Optional[str] = None
-    GROQ_MODEL: str = "llama-3.1-8b-instant"
+    GROQ_MODEL: str = "openai/gpt-oss-120b"
 
     # Parámetros de Decodificación de LLMs
     TEMPERATURE: float = 0.1
