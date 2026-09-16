@@ -113,7 +113,7 @@ export function ComparisonView({ data }: ComparisonViewProps) {
               </span>
             </div>
             <span className="text-xs bg-red-500/10 text-red-400 border border-red-500/20 px-2 py-0.5 rounded font-mono">
-              Llama 3.3 70B
+              openai/gpt-oss-120b
             </span>
           </div>
 

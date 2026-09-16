@@ -180,8 +180,8 @@ export function TriageForm({
             Motor activo:{" "}
             <strong className="text-slate-300">
               {provider === "cloud_groq"
-                ? "Llama 3.3 (Groq API)"
-                : "Qwen 2.5 Coder (Ollama Local)"}
+                ? "openai/gpt-oss-120b (Groq Cloud)"
+                : "Qwen 2.5 Coder 7B (Ollama Local)"}
             </strong>
           </span>
 
