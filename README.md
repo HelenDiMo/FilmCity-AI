@@ -1,6 +1,10 @@
 <div align="center">
   <img src="frontend/public/gemini-svg.svg" alt="FilmCity AI Logo" width="520" />
 
+</div>
+
+--- 
+
 # FilmCity IA — Plataforma Inteligente de Triaje y Mediación de Rodajes Urbanos
 
 [![FastAPI](https://img.shields.io/badge/Backend-FastAPI-009688?style=flat&logo=fastapi)](https://fastapi.tiangolo.com/)
