@@ -1,0 +1,60 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 240" width="100%" height="100%">
+  <defs>
+    <!-- Gradiente cinematográfico dorado/ámbar -->
+    <linearGradient id="aiGlow" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FACC15" />
+      <stop offset="100%" stop-color="#EA580C" />
+    </linearGradient>
+    <filter id="glow" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="3" result="blur" />
+      <feComposite in="SourceGraphic" in2="blur" operator="over" />
+    </filter>
+  </defs>
+
+  <g transform="translate(40, 20)">
+    <!-- Bobinas de película superiores -->
+    <circle cx="95" cy="55" r="28" fill="none" stroke="#FACC15" stroke-width="5" />
+    <circle cx="95" cy="55" r="8" fill="#FACC15" />
+    <circle cx="95" cy="35" r="4" fill="#FACC15" />
+    <circle cx="95" cy="75" r="4" fill="#FACC15" />
+    <circle cx="75" cy="55" r="4" fill="#FACC15" />
+    <circle cx="115" cy="55" r="4" fill="#FACC15" />
+
+    <circle cx="155" cy="50" r="32" fill="none" stroke="#FACC15" stroke-width="5" />
+    <circle cx="155" cy="50" r="9" fill="#FACC15" />
+    <circle cx="155" cy="27" r="4.5" fill="#FACC15" />
+    <circle cx="155" cy="73" r="4.5" fill="#FACC15" />
+    <circle cx="132" cy="50" r="4.5" fill="#FACC15" />
+    <circle cx="178" cy="50" r="4.5" fill="#FACC15" />
+
+    <!-- Cuerpo de la cámara -->
+    <rect x="55" y="85" width="135" height="95" rx="14" fill="none" stroke="#FFFFFF" stroke-width="6" />
+    
+    <!-- Lente / Proyector -->
+    <polygon points="195,110 240,85 240,160 195,135" fill="none" stroke="#FFFFFF" stroke-width="6" stroke-linejoin="round" />
+
+    <!-- Circuitos neuronales (IA) dentro de la cámara -->
+    <path d="M 75 145 L 95 145 L 110 125 L 135 125" fill="none" stroke="url(#aiGlow)" stroke-width="4" stroke-linecap="round" />
+    <circle cx="75" cy="145" r="4" fill="#FACC15" />
+    <circle cx="135" cy="125" r="5" fill="#EA580C" filter="url(#glow)" />
+
+    <path d="M 95 160 L 125 160 L 140 145 L 165 145" fill="none" stroke="url(#aiGlow)" stroke-width="4" stroke-linecap="round" />
+    <circle cx="95" cy="160" r="4" fill="#FACC15" />
+    <circle cx="165" cy="145" r="5" fill="#EA580C" filter="url(#glow)" />
+
+    <path d="M 110 105 L 130 105 L 145 118" fill="none" stroke="url(#aiGlow)" stroke-width="4" stroke-linecap="round" />
+    <circle cx="110" cy="105" r="4" fill="#FACC15" />
+    <circle cx="145" cy="118" r="4" fill="#FACC15" />
+
+    <!-- Tipografía del Isologo -->
+    <text x="275" y="130" font-family="system-ui, -apple-system, sans-serif" font-weight="900" font-size="64" fill="#FFFFFF" letter-spacing="2">
+      FILMCITY
+    </text>
+    <text x="590" y="130" font-family="system-ui, -apple-system, sans-serif" font-weight="900" font-size="64" fill="#FACC15" letter-spacing="2">
+      AI
+    </text>
+    <text x="280" y="165" font-family="system-ui, -apple-system, sans-serif" font-weight="600" font-size="16" fill="#A1A1AA" letter-spacing="4">
+      URBAN FILM TRIAGE &amp; MEDIATION PLATFORM
+    </text>
+  </g>
+</svg>
