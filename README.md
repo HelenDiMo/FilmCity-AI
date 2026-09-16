@@ -27,6 +27,7 @@
 | **Frontend (Portal Ciudadano / Admin)** | [helendimo.github.io/FilmCity-AI](https://helendimo.github.io/FilmCity-AI/) |
 | **Backend (API FastAPI)** | [filmcity-ai.onrender.com](https://filmcity-ai.onrender.com/) |
 
+
 > ⚠️ **Nota sobre el proveedor Ollama en esta demo:** el motor local Ollama está pensado para ejecutarse en red local bajo soberanía de datos (RGPD) — no es accesible desde un backend desplegado en la nube pública (Render). Por eso, si seleccionas **"Ollama Local"** en el triaje individual sobre esta demo desplegada, el sistema devuelve intencionadamente un aviso controlado en lugar de un error genérico:
 >
 > ```
@@ -37,6 +38,9 @@
 > ```
 >
 > Esto no es un fallo de la aplicación, sino el comportamiento correcto del manejo de errores (ver sección de *Testing*): la API detecta el fallo de conexión con Ollama y devuelve un `503` con un mensaje explicativo en vez de que el servicio colapse. Para probar el triaje con Ollama en un entorno real, ejecuta el proyecto en local siguiendo la sección de instalación.
+
+> 👉 Para ver una demo de cómo funciona FilmCity AI en Local: **Video Demo Completo** | [FilmCity AI - Demo](https://youtu.be/UpBQX6xetnA)
+
 
 ---
 
