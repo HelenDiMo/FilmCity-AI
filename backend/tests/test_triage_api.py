@@ -123,7 +123,7 @@ def test_triage_connection_error_handling(mock_run_triage):
     el endpoint responde con HTTP 503 sin colapsar el servidor.
     """
     mock_run_triage.side_effect = ConnectionError(
-        "No se pudo conectar con el servidor Ollama/Groq"
+        "No se pudo establecer conexión con el proveedor de inferencia."
     )
 
     payload = {

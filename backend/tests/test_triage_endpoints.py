@@ -112,7 +112,7 @@ def test_process_triage_connection_error_handled(mock_run_triage):
     response = client.post("/api/v1/triage", json=payload)
 
     assert response.status_code == 503
-    assert "Servicio LLM no disponible" in response.json()["detail"]
+    assert "Ollama" in response.json()["detail"]
 
 
 @patch("app.api.v1.endpoints.triage.triage_service.compare_providers")
