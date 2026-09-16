@@ -39,7 +39,7 @@
 >
 > Esto no es un fallo de la aplicación, sino el comportamiento correcto del manejo de errores (ver sección de *Testing*): la API detecta el fallo de conexión con Ollama y devuelve un `503` con un mensaje explicativo en vez de que el servicio colapse. Para probar el triaje con Ollama en un entorno real, ejecuta el proyecto en local siguiendo la sección de instalación.
 
-> 👉 Para ver una demo de cómo funciona FilmCity AI en Local: **Video Demo Completo** | [FilmCity AI - Demo](https://youtu.be/UpBQX6xetnA)
+> 👉 Para ver una demo de cómo funciona FilmCity AI en Local: [FilmCity AI - Demo](https://youtu.be/UpBQX6xetnA)
 
 
 ---
