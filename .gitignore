@@ -23,3 +23,6 @@ htmlcov/
 .idea/
 *.swp
 *.swo
+
+# Resultados de benchmark local (dependen del hardware de cada máquina)
+backend/scripts/benchmark_results.json
