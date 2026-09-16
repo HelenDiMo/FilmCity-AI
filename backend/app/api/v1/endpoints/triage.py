@@ -42,6 +42,11 @@ def process_triage(payload: TriageRequest) -> TriageResponse:
             status_code=status.HTTP_422_UNPROCESSABLE_ENTITY,
             detail=f"Error en validación de contrato o proveedor: {val_err}",
         ) from val_err
+    except Exception as exc:
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail=f"Error interno al procesar el triaje: {exc}",
+        ) from exc
 
 
 @router.post(
