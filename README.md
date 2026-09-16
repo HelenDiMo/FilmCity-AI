@@ -6,7 +6,12 @@
 [![Pytest](https://img.shields.io/badge/Testing-Pytest%20(100%25%20Passed)-brightgreen?style=flat&logo=pytest)](https://pytest.org/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-**FilmCity IA** es una solución cívico-tecnológica diseñada para la mediación y gestión operativa de rodajes audiovisuales en el espacio público (Madrid Film Office). La plataforma implementa un pipeline de triaje automatizado con modelos LLM de código abierto, razonamiento estructurado **ReAct**, enriquecimiento geográfico mediante **geolocalización GPS (OpenStreetMap Nominatim)**, validación determinista de esquemas mediante **Pydantic v2** y una arquitectura **Human-in-the-Loop (HITL)** para la supervisión y validación por parte de operadores municipales.
+> ⚖️ **Aviso Legal y Descargo de Responsabilidad (Fictional Case Study):**
+> Este proyecto es un caso de uso técnico, educativo y de investigación aplicada sobre IA generativa. La mención de **Madrid Film Office** responde a un escenario de **colaboración puramente FICTICIA** concebido con fines de contextualización del problema y pruebas de diseño de experiencia de usuario (UX). El proyecto no cuenta con respaldo oficial, afiliación directa ni representación institucional por parte de Madrid Film Office o el Ayuntamiento de Madrid.
+
+**FilmCity IA** es una solución cívico-tecnológica diseñada para la mediación y gestión operativa de rodajes audiovisuales en el espacio público, ambientada en el marco operativo de una colaboración ficticia con Madrid Film Office. La plataforma implementa un pipeline de triaje automatizado con modelos LLM de código abierto, razonamiento estructurado **ReAct**, enriquecimiento geográfico mediante **geolocalización GPS (OpenStreetMap Nominatim)**, validación determinista de esquemas mediante **Pydantic v2** y una arquitectura **Human-in-the-Loop (HITL)** para la supervisión y validación por parte de operadores municipales.
+
+---
 
 ## 🚀 Demo Desplegada
 
@@ -271,7 +276,7 @@ Este caso comprueba que, pese a mencionar explícitamente nacionalidad e idioma,
 
 ## 🎨 Sistema de Diseño y Colorimetría
 
-La interfaz de FilmCity IA utiliza una paleta en modo oscuro (*Dark Mode UI*) orientada a consolas operativas y salas de control municipal, combinando alto contraste para accesibilidad y codificación semántica de estados:
+Como parte del ejercicio de diseño de este caso de uso ficticio, la interfaz de FilmCity IA ha integrado los colores corporativos de Madrid Film Office (contrastes de amarillo cinematográfico y negro institucional) para contextualizar la plataforma en una consola operativa municipal creíble:
 
 ### 1. Paleta de Superficies y Jerarquía Visual
 
