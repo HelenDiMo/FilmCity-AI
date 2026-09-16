@@ -21,7 +21,7 @@ class Settings(BaseSettings):
 
     # Proveedor Local (Ollama)
     OLLAMA_BASE_URL: str = "http://localhost:11434"
-    OLLAMA_MODEL: str = "llama3.2"
+    OLLAMA_MODEL: str = "qwen2.5-coder:7b"
 
     # Proveedor Cloud (Groq)
     GROQ_API_KEY: Optional[str] = None

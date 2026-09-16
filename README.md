@@ -46,8 +46,8 @@
                  ▼                                         ▼
   ┌───────────────────────────────┐         ┌───────────────────────────────┐
   │   Proveedor Cloud (Groq)      │         │   Proveedor Local (Ollama)    │
-  │   Llama 3.3 70B Versatile     │         │   Qwen 2.5 Coder              │
-  │   Alta Velocidad LPUs (~300ms)│         │   Soberanía RGPD / Coste 0.0$ │
+  │   openai/gpt-oss-120b         │         │   Qwen 2.5 Coder 7B           │
+  │   Hardware LPU / API Cloud    │         │   Soberanía RGPD / Coste 0.0$ │
   └──────────────┬────────────────┘         └──────────────┬────────────────┘
                  │                                         │
                  └────────────────────┬────────────────────┘
@@ -67,7 +67,7 @@
 ### Principios y Decisiones de Diseño
 
 * **Geolocalización Asistida por GPS (OpenStreetMap Reverse Geocoding):** Ingesta ciudadana enriquecida con coordenadas exactas y normalización de calle/distrito mediante la API de Nominatim. Proporciona al motor LLM el contexto espacial para inferir competencias de las Juntas de Distrito de Madrid.
-* **Ecosistema Abierto & Multi-Proveedor:** Desacoplamiento de la infraestructura de inferencia mediante el patrón *Strategy/Provider*. Permite alternar en tiempo de ejecución entre **Groq Cloud API** (Llama 3.3 70B para alto rendimiento) y **Ollama Local** (Qwen 2.5 Coder para soberanía de datos estricta y privacidad).
+* **Ecosistema Abierto & Multi-Proveedor:** Desacoplamiento de la infraestructura de inferencia mediante el patrón *Strategy/Provider*. Permite alternar en tiempo de ejecución entre **Groq Cloud API** (`openai/gpt-oss-120b`, modelo razonador de alto rendimiento) y **Ollama Local** (`qwen2.5-coder:7b` para soberanía de datos estricta y privacidad). Ver la [Matriz Comparativa](#-matriz-comparativa-groq-cloud-vs-ollama-local) para datos reales de latencia y coste medidos con ambos proveedores.
 * **Razonamiento ReAct (Reasoning + Acting):** Inyección de directrices en tres fases auditables:
   * **Thought:** Análisis contextual del incidente, cruce espacial con el set de rodaje y evaluación de riesgos.
   * **Action:** Protocolo municipal aplicable y comprobación de permisos.
@@ -84,13 +84,14 @@ FilmCity-AI/
 ├── backend/
 │   ├── app/
 │   │   ├── api/v1/endpoints/  # Rutas de Triaje, Comparativa y Sets
-│   │   ├── core/              # Configuraciones de entorno y CORS
+│   │   ├── core/              # Configuración de entorno (.env) y CORS
 │   │   ├── models/            # Schemas Pydantic y Enums tipados
 │   │   └── services/          # Clientes LLM (Groq/Ollama) y Prompts ReAct
-│   ├── tests/
-│   │   └── test_triage_api.py # Suite de pruebas unitarias y de integración
-│   ├── requirements.txt       # Dependencias backend
-│   └── run.py                 # Script de arranque Uvicorn
+│   ├── scripts/
+│   │   └── benchmark_providers.py  # Benchmark empírico Groq vs. Ollama
+│   └── tests/
+│       ├── test_triage_api.py      # Suite principal (contratos, sanitización, errores)
+│       └── test_triage_endpoints.py # Suite de endpoints (éxito, JSON roto, conexión)
 ├── frontend/
 │   ├── src/
 │   │   ├── components/        # CitizenPortal (GPS), TriageForm, TriageResultCard, ComparisonView
@@ -98,6 +99,9 @@ FilmCity-AI/
 │   │   └── App.tsx            # Navegación y orquestación de estado
 │   ├── package.json           # Dependencias frontend
 │   └── vite.config.ts         # Configuración Vite + Proxy
+├── requirements.txt            # Dependencias backend (raíz del repo)
+├── run.py                      # Script de arranque Uvicorn (raíz del repo)
+├── .env.example                 # Plantilla de variables de entorno (raíz del repo)
 └── README.md
 ```
 
@@ -109,7 +113,7 @@ FilmCity-AI/
 
 * Python 3.11+
 * Node.js 18+
-* Ollama local en ejecución (`ollama serve`) con el modelo `qwen2.5-coder` (opcional para inferencia local).
+* Ollama local en ejecución (`ollama serve`) con el modelo `qwen2.5-coder:7b` (opcional para inferencia local).
 * Clave de API de Groq Console.
 
 ### 1. Configuración del Backend
@@ -135,7 +139,7 @@ Variables de entorno requeridas en `.env` (raíz del repositorio):
 GROQ_API_KEY=gsk_tu_clave_de_groq_aqui
 GROQ_MODEL=openai/gpt-oss-120b
 OLLAMA_BASE_URL=http://localhost:11434
-OLLAMA_MODEL=qwen2.5-coder
+OLLAMA_MODEL=qwen2.5-coder:7b
 ```
 
 Iniciar servidor API:
@@ -168,35 +172,34 @@ La suite de pruebas automatizadas valida la robustez de los contratos de API, la
 
 ```bash
 cd backend
-python -m pytest --cov=app --cov-report=term-missing --cov-report=html tests/test_triage_api.py
+python -m pytest --cov=app --cov-report=term-missing --cov-report=html tests/
 ```
 
 ### Resumen de Cobertura Obtenido
 
 ```
-==================================== test session starts ====================================
-collected 11 items
-
-tests/test_triage_api.py ...........                                                  [100%]
-
----------------------------------------------------------------------------------------------
-Name                                  Stmts   Miss  Cover   Missing
----------------------------------------------------------------------------------------------
-app/main.py                              12      0   100%
-app/core/config.py                       20      0   100%
-app/models/enums.py                      22      0   100%
-app/models/schemas.py                    36      1    97%
-app/api/v1/endpoints/sets.py             15      1    93%
-app/api/v1/endpoints/triage.py           22      4    82%
-app/services/prompts.py                   8      0   100%
-app/services/llm_service.py              14      7    50%
-app/services/llm_providers.py            85     55    35%   (Aislado con mocks para CI/CD)
----------------------------------------------------------------------------------------------
-TOTAL                                   234     68    71%
-================================ 11 passed, 3 warnings in 0.53s ==============================
+================================ tests coverage ================================
+Name                                     Stmts   Miss  Cover   Missing
+----------------------------------------------------------------------
+app/api/v1/endpoints/sets.py                15      1    93%   61
+app/api/v1/endpoints/triage.py              28      6    79%   65-73
+app/core/config.py                          23      0   100%
+app/main.py                                 12      0   100%
+app/models/enums.py                         22      0   100%
+app/models/schemas.py                       41      1    98%   67
+app/services/llm_providers.py               85     55    35%   (Aislado con mocks para CI/CD)
+app/services/llm_service.py                 14      7    50%
+app/services/prompts.py                       8      0   100%
+----------------------------------------------------------------------
+TOTAL                                      248     70    72%
+======================== 16 passed, 4 warnings in 1.14s ========================
 ```
 
+Los 16 tests se reparten entre `test_triage_api.py` (11 — contratos Pydantic, sanitización, few-shot, alucinaciones estructurales, excepciones genéricas) y `test_triage_endpoints.py` (5 — health check, éxito end-to-end, JSON roto y caída de conexión sobre los endpoints reales de FastAPI).
+
 **Aislamiento de Red:** Los clientes de red hacia proveedores externos (`llm_providers.py`) se aíslan intencionadamente mediante `unittest.mock` para garantizar pruebas deterministas, rápidas y sin coste de consumo de cuota ni dependencia de internet.
+
+**Prueba manual complementaria:** `test_manual_cases.py` no forma parte de la suite de Pytest — es un script independiente (`python backend/tests/test_manual_cases.py`) que ejecuta casos extremos y de sesgo (ver sección de *Sesgos Detectados*) contra un proveedor LLM real, pensado para validación cualitativa antes de una demo, no para CI.
 
 ---
 
