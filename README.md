@@ -1,5 +1,5 @@
 <div align="center">
-  <img src="frontend/public/gemini-svg.svg" alt="FilmCity AI Logo" width="280" />
+  <img src="frontend/public/gemini-svg.svg" alt="FilmCity AI Logo" width="400" />
 
 # FilmCity IA — Plataforma Inteligente de Triaje y Mediación de Rodajes Urbanos
 
